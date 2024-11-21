@@ -1,0 +1,48 @@
+.status {
+  display: inline-block;
+}
+
+.status_text {
+  display: inherit;
+  margin-right: 10px;
+}
+
+.status_wait {
+  display: inherit;
+  width: 100px;
+  padding: 3px 0;
+  text-align: center;
+  border-radius: 6px;
+  color: #FFF;
+  background-color: rgb(34, 145, 230);
+}
+
+.status_execute {
+  display: inherit;
+  width: 100px;
+  padding: 3px 0;
+  text-align: center;
+  border-radius: 6px;
+  color: #FFF;
+  background-color: rgb(83, 198, 25);
+}
+
+.status_finish {
+  display: inherit;
+  width: 100px;
+  padding: 3px 0;
+  text-align: center;
+  border-radius: 6px;
+  color: #FFF;
+  background-color: rgb(220, 128, 23);
+}
+
+.status_error {
+  display: inherit;
+  width: 100px;
+  padding: 3px 0;
+  text-align: center;
+  border-radius: 6px;
+  color: #FFF;
+  background-color: rgb(206, 15, 15);
+}
