@@ -6,7 +6,7 @@ Geminiを使って、問題を生成するアプリ
 ## 最初の設定
 1. "npm install" でインストール
 2. ".env_sample"ファイルを複製して、".env"にリネームする
-3. ".env"ファイル中の"REACT_APP_API_KEY"にGeminiのAPIキーを記入する
+3. ".env"ファイル中の"REACT_APP_API_KEY"にGeminiのAPIキーを記入する(https://aistudio.google.com/apikey)
 
 ## 使い方
 1. "npm run dev"で実行
