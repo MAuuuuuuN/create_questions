@@ -1,8 +1,8 @@
-export default function AnswerDisplay({ answerValue, isShowAnswer }) {
+export default function AnswerDisplay({ answerData, isShowAnswer }) {
   return (
     <>
       <div>
-        {isShowAnswer && <p>{answerValue}</p>}
+        {isShowAnswer && <p>{answerData}</p>}
         {!isShowAnswer && <p><br/></p>}
       </div>
     </>

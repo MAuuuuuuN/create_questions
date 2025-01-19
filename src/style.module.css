@@ -7,7 +7,7 @@
   margin-right: 10px;
 }
 
-.status_wait {
+.status_ready {
   display: inherit;
   width: 100px;
   padding: 3px 0;
@@ -17,7 +17,7 @@
   background-color: rgb(34, 145, 230);
 }
 
-.status_execute {
+.status_start {
   display: inherit;
   width: 100px;
   padding: 3px 0;
