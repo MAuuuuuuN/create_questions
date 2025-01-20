@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import ProblemSetting from './components/ProblemSetting.js';
-import ShowAnswer from './components/ShowAnswer.js';
-import Quiz from './components/Quiz.js';
+import ProblemSetting from './components/ProblemSetting.jsx';
+import ShowAnswer from './components/ShowAnswer.jsx';
+import Quiz from './components/Quiz.jsx';
 
 import styles from './style.module.css';
 
@@ -84,14 +84,8 @@ function App() {
         {states
           .filter((state) => state.stateNow === geminiState)
           .map((state) => (
-            <p className={styles[`status_${state.stateNow}`]}>{state.stateValue}</p>
+            <p key={state.stateNow} className={styles[`status_${state.stateNow}`]}>{state.stateValue}</p>
           ))}
-
-
-        {/* {geminiState === "ready" && <p className={styles.status_ready}>待機中</p>}
-        {geminiState === "start" && <p className={styles.status_start}>実行中</p>}
-        {geminiState === "end" && <p className={styles.status_finish}>終了</p>}
-        {geminiState === "error" && <p className={styles.status_error}>エラー</p>} */}
       </div>
       {/* 問題文と選択肢と答えを設定 */}
       {questionList.map((question, index) => (

@@ -1,6 +1,6 @@
-import ProblemDisplay from './ProblemDisplay.js';
-import SelectDisplay from './SelectDisplay.js';
-import AnswerDisplay from './AnswerDisplay.js';
+import ProblemDisplay from './ProblemDisplay.jsx';
+import SelectDisplay from './SelectDisplay.jsx';
+import AnswerDisplay from './AnswerDisplay.jsx';
 
 export default function Quiz({ quizData, quizIndex, isShowAnswer }) {
   return (
