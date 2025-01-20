@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
-import styles from './ProblemSetting.module.css';
+import styles from './css/QuizSetting.module.css';
 
-export default function ProblemSetting({ onButtonClick }) {
+export default function QuizSetting({ onButtonClick }) {
   const questionSet = useRef();
 
   function setting_prompt() {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import ProblemSetting from './components/ProblemSetting.jsx';
+import QuizSetting from './components/QuizSetting.jsx';
 import ShowAnswer from './components/ShowAnswer.jsx';
 import Quiz from './components/Quiz.jsx';
 
@@ -76,7 +76,7 @@ function App() {
   return (
     <>
       {/* 問題生成のボタン */}
-      <ProblemSetting onButtonClick={handleButtonClick} />
+      <QuizSetting onButtonClick={handleButtonClick} />
       {/* 実行の状態を表示 */}
       {/* ToDo : オブジェクトなどを利用して簡潔にまとめる */}
       <div className={styles.status}>

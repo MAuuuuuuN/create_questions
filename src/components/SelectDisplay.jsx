@@ -1,10 +1,9 @@
-import styles from './ProblemDisplay.module.css';
+import styles from './css/SelectDisplay.module.css';
 
 export default function SelectDisplay({ selectData, quizIndex }) {
   return (
     <>
       <fieldset>
-        
         <ul className={styles.problem_list}>
           {selectData.map((select) => (
             <li key={select.selectId}>
@@ -16,7 +15,6 @@ export default function SelectDisplay({ selectData, quizIndex }) {
           ))}
         </ul>
       </fieldset>
-
     </>
   )
 }
