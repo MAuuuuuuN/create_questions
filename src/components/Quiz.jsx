@@ -6,8 +6,8 @@ export default function Quiz({ quizData, quizIndex, isShowAnswer }) {
   return (
     <>
       <div>
-        <QuestionDisplay problemData={quizData.question} quizIndex={quizIndex} />
-        <SelectDisplay selectData={quizData.select} quizIndex={quizIndex} />
+        <QuestionDisplay questionData={quizData.question} quizIndex={quizIndex} />
+        <SelectDisplay selectData={quizData.selects} quizIndex={quizIndex} />
         <AnswerDisplay answerData={quizData.answer} isShowAnswer={isShowAnswer} />
       </div>
     </>

@@ -35,21 +35,20 @@ function App() {
     setGeminiState("start");
     try {
       const { GoogleGenerativeAI } = require("@google/generative-ai");
-      const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const prompt_select = `${value}に関する知識を問う問題を3つ出題してください。questionに問題文、selectに選択肢、answerに正解の選択肢を入れてください。選択肢を4つ設けて,正解の選択肢は1つとするように設定してください。次のようなJSON形式のような形で出力してください。[{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"},{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"}]`;
-      const result = await model.generateContent(prompt_select);
-      const response = result.response.text();
-      const regex_response = response.replaceAll("```", '').replace(/json\s/, '');
-      const quiz_list = JSON.parse(regex_response);
+      const geminiApiKey = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
+      const model = geminiApiKey.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const promptSelect = `${value}に関する知識を問う問題を3つ出題してください。questionに問題文、selectに選択肢、answerに正解の選択肢を入れてください。選択肢を4つ設けて,正解の選択肢は1つとするように設定してください。次のようなJSON形式のような形で出力してください。[{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"},{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"}]`;
+      const result = await model.generateContent(promptSelect);
+      const formatResult = result.response.text().replaceAll("```", '').replace(/json\s/, '');
+      const quizList = JSON.parse(formatResult);
 
       setQuestionList(() => {
-        const newQuestions = quiz_list.map((quiz) => ({
+        const newQuestions = quizList.map((quiz) => ({
           questionId: crypto.randomUUID(),
           question: quiz.question,
-          select: quiz.select.map(cur => ({
-            selectId: crypto.randomUUID(),
-            select: cur
+          selects: quiz.select.map(select => ({
+            optionId: crypto.randomUUID(),
+            option: select
           })),
           answer: quiz.answer
         }));

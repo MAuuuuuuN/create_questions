@@ -1,7 +1,7 @@
-export default function QuestionDisplay({ problemData, quizIndex }) {
+export default function QuestionDisplay({ questionData, quizIndex }) {
   return (
     <div>
-      <p>問題{quizIndex + 1} : {problemData}</p>
+      <p>問題{quizIndex + 1} : {questionData}</p>
     </div>
   );
 }
