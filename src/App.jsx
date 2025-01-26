@@ -1,15 +1,35 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import QuizSetting from './components/QuizSetting.jsx';
 import ShowAnswer from './components/ShowAnswer.jsx';
 import Quiz from './components/Quiz.jsx';
-
 import styles from './style.module.css';
+import { quizContext, answerContext } from './components/QuizContext.jsx';
+import { addQuiz } from './http.js';
 
 function App() {
   const [geminiState, setGeminiState] = useState('ready');
   const [showAnswer, setShowAnswer] = useState(false);
-  const [questionList, setQuestionList] = useState([]);
+  const quizs = useContext(quizContext);
+  const { setAnswerList } = useContext(answerContext);
+
+  useEffect(() => {
+    const radioButtons = document.querySelectorAll('.quiz input[type="radio"]:checked + p');
+
+    const radioButtonList = [];
+
+    radioButtons.forEach(radioButton => {
+      const label = radioButton.textContent;
+      radioButtonList.push(label);
+    });
+
+    if (radioButtons.length > 0) {
+      setAnswerList(prevState => ({
+        ...prevState,
+        userSelect: radioButtonList
+      }));
+    }
+  }, [showAnswer, setAnswerList])
 
   const states = [
     {
@@ -42,7 +62,15 @@ function App() {
       const formatResult = result.response.text().replaceAll("```", '').replace(/json\s/, '');
       const quizList = JSON.parse(formatResult);
 
-      setQuestionList(() => {
+      try {
+        for(const quiz of quizList) {
+          await addQuiz(quiz);
+        }
+      } catch(error) {
+        console.log(error);
+      }
+
+      quizs.setQuizList(() => {
         const newQuestions = quizList.map((quiz) => ({
           questionId: crypto.randomUUID(),
           question: quiz.question,
@@ -55,6 +83,11 @@ function App() {
 
         return [...newQuestions];
       });
+
+      setAnswerList(prevState => ({
+        ...prevState,
+        answerSelect: quizList.map(quiz => quiz.answer)
+      }));
 
       setGeminiState("finish");
     } catch (error) {
@@ -87,7 +120,7 @@ function App() {
           ))}
       </div>
       {/* 問題文と選択肢と答えを設定 */}
-      {questionList.map((question, index) => (
+      {quizs.quizList.map((question, index) => (
         <Quiz key={question.questionId} quizId={question.quiestionId} quizData={question} quizIndex={index} isShowAnswer={showAnswer} />
       ))}
       {/* 答え表示ボタン */}

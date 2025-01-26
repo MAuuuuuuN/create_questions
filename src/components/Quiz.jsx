@@ -4,12 +4,10 @@ import AnswerDisplay from './AnswerDisplay.jsx';
 
 export default function Quiz({ quizData, quizIndex, isShowAnswer }) {
   return (
-    <>
-      <div>
-        <QuestionDisplay questionData={quizData.question} quizIndex={quizIndex} />
-        <SelectDisplay selectData={quizData.selects} quizIndex={quizIndex} />
-        <AnswerDisplay answerData={quizData.answer} isShowAnswer={isShowAnswer} />
-      </div>
-    </>
+    <div className={'quiz'}>
+      <QuestionDisplay questionData={quizData.question} quizIndex={quizIndex} />
+      <SelectDisplay selectData={quizData.selects} quizIndex={quizIndex} isShowAnswer={isShowAnswer} />
+      <AnswerDisplay answerData={quizData.answer} isShowAnswer={isShowAnswer} quizIndex={quizIndex} />
+    </div>
   );
 }

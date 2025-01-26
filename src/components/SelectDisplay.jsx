@@ -1,6 +1,9 @@
+// import { useContext, useEffect } from 'react';
 import styles from './css/SelectDisplay.module.css';
+// import { answerContext } from './QuizContext.jsx';
 
 export default function SelectDisplay({ selectData, quizIndex }) {
+
   return (
     <>
       <fieldset>
@@ -9,7 +12,7 @@ export default function SelectDisplay({ selectData, quizIndex }) {
             <li key={select.optionId}>
               <label htmlFor={select.optionId}>
                 <input type="radio" id={select.optionId} name={quizIndex} />
-                {select.option}
+                <p>{select.option}</p>
               </label>
             </li>
           ))}
