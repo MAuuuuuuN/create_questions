@@ -6,9 +6,11 @@ export const answerContext = createContext([]);
 export function QuizProvider({ children }) {
   const [quizList, setQuizList] = useState([]);
 
-  return <quizContext.Provider value={{ quizList, setQuizList }}>
-    {children}
-  </quizContext.Provider>
+  return (
+    <quizContext.Provider value={{ quizList, setQuizList }}>
+      {children}
+    </quizContext.Provider>
+  )
 }
 
 export function AnswerProvider({ children }) {

@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const app = express();
+const mysql = require("mysql2");
 
 app.use(cors());
 app.use(express.json());
@@ -10,35 +11,33 @@ app.listen(3001, console.log("サーバーが起動しました"));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));;
-});
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'quiz'
+})
 
-const quiz = [
-  { id: 1, "quiz": "test" },
-];
-
-app.get("/api/quiz", (req, res) => {
-  res.send(quiz);
-});
-
-app.get("/api/quiz/:id", (req, res) => {
-  const get_id = quiz.find((quiz) => {
-    quiz.id === paramsInt(req.params.id)
-  });
-
-  res.send(get_id);
-});
-
+db.connect(error => {
+  if(error) {
+    console.log("SQL接続時にエラーが発生しました", error);
+    return;
+  }
+  console.log("SQLに接続しました");
+})
 
 app.post("/api/quiz", (req, res) => {
-  const post_quiz = {
-    id: quiz.length + 1,
-    quiz: req.body.quiz,
-  };
+  const post = JSON.stringify(req.body.quiz);
+  const query = "INSERT INTO quiz_list (quiz) VALUES (?);";
 
-  quiz.push(post_quiz);
-  res.send(quiz);
+  db.query(query, [post], (error, result) => {
+    if(error) {
+      console.log(error);
+      return;
+    }
+
+    res.send(result);
+  })
 });
 
 

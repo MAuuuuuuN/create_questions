@@ -9,6 +9,5 @@ export async function addQuiz(quiz) {
 
   console.log(post);
 
-
   await fetch('http://localhost:3001/api/quiz', post);
 }
