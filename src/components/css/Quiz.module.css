@@ -1,0 +1,9 @@
+.quiz {
+  width: 80%;
+  height: 360px;
+  margin: 16px auto;
+  padding: 28px;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 0 5px black;
+}

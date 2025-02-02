@@ -1,4 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
+import { useDisclosure } from '@mantine/hooks';
+import { Modal, Button } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
 
 import QuizSetting from './components/QuizSetting.jsx';
 import ShowAnswer from './components/ShowAnswer.jsx';
@@ -12,6 +15,7 @@ function App() {
   const [showAnswer, setShowAnswer] = useState(false);
   const quizs = useContext(quizContext);
   const { setAnswerList } = useContext(answerContext);
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     const radioButtons = document.querySelectorAll('.quiz input[type="radio"]:checked + p');
@@ -63,10 +67,10 @@ function App() {
       const quizList = JSON.parse(formatResult);
 
       try {
-        for(const quiz of quizList) {
+        for (const quiz of quizList) {
           await addQuiz(quiz);
         }
-      } catch(error) {
+      } catch (error) {
         console.log(error);
       }
 
@@ -107,10 +111,15 @@ function App() {
 
   return (
     <>
+      {/* モーダル表示 */}
+      <Modal opened={opened} onClose={close} title="Authentication" centered size="70%" overlayProps={{ backgroundOpacity: 0.55, blur: 3, }}>
+        テスト
+      </Modal>
+
       {/* 問題生成のボタン */}
       <QuizSetting onButtonClick={handleButtonClick} />
+
       {/* 実行の状態を表示 */}
-      {/* ToDo : オブジェクトなどを利用して簡潔にまとめる */}
       <div className={styles.status}>
         <p className={styles.status_text}>ステータス : </p>
         {states
@@ -119,12 +128,23 @@ function App() {
             <p key={state.stateNow} className={styles[`status_${state.stateNow}`]}>{state.stateValue}</p>
           ))}
       </div>
+
       {/* 問題文と選択肢と答えを設定 */}
-      {quizs.quizList.map((question, index) => (
-        <Quiz key={question.questionId} quizId={question.quiestionId} quizData={question} quizIndex={index} isShowAnswer={showAnswer} />
-      ))}
-      {/* 答え表示ボタン */}
-      {geminiState === "finish" && <ShowAnswer onShowAnswer={handleShowAnswer} isShow={showAnswer} />}
+      <Carousel widthIndicators height={400} slideSize="80%" slideGap="100px" withIndicators >
+        {quizs.quizList.map((question, index) => (
+          <Carousel.Slide>
+            <Quiz key={question.questionId} quizId={question.quiestionId} quizData={question} quizIndex={index} isShowAnswer={showAnswer} />
+          </Carousel.Slide>
+        ))}
+      </Carousel>
+
+      <div className={styles.button_low}>
+        {/* 答え表示ボタン */}
+        {geminiState === "finish" && <ShowAnswer onShowAnswer={handleShowAnswer} isShow={showAnswer} />}
+
+        {/* モーダル表示ボタン */}
+        <Button variant="default" onClick={open}>モーダルを表示</Button>
+      </div>
     </>
   );
 }

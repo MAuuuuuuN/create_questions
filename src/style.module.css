@@ -46,3 +46,29 @@
   color: #FFF;
   background-color: rgb(206, 15, 15);
 }
+
+fieldset {
+  border: none;
+}
+
+.control {
+  opacity: 0;
+  &[data-inactive] {
+    opacity: 0;
+    cursor: default;
+  }
+}
+
+.button_low {
+  text-align: center;
+  margin: 0 8px;
+}
+
+.button_low * {
+  margin: 0 8px;
+}
+
+.button_low span span {
+  width: 100px;
+  justify-content: center;
+}
