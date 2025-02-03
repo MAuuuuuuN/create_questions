@@ -13,6 +13,7 @@ export function QuizProvider({ children }) {
   )
 }
 
+// 選択した選択肢と答えを比較して、正誤判定をする
 export function AnswerProvider({ children }) {
   const [answerList, setAnswerList] = useState({
     userSelect: [],
@@ -20,9 +21,10 @@ export function AnswerProvider({ children }) {
     correct: []
   });
 
-
   useEffect(() => {
     const correctList = [];
+
+    console.log(answerList.userSelect.length);
 
     if (answerList.userSelect.length > 0) {
       answerList.userSelect.forEach((select, index) => {
@@ -40,7 +42,9 @@ export function AnswerProvider({ children }) {
     }
   }, [answerList.userSelect, answerList.answerSelect])
 
-  return <answerContext.Provider value={{ answerList, setAnswerList }}>
-    {children}
-  </answerContext.Provider>
+  return (
+    <answerContext.Provider value={{ answerList, setAnswerList }}>
+      {children}
+    </answerContext.Provider>
+  )
 }

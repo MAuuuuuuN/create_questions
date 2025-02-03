@@ -18,14 +18,15 @@ function App() {
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
-    const radioButtons = document.querySelectorAll('.quiz input[type="radio"]:checked + p');
-
+    const radioButtons = document.querySelectorAll('#quiz input[type="radio"]:checked + p');
     const radioButtonList = [];
 
     radioButtons.forEach(radioButton => {
       const label = radioButton.textContent;
       radioButtonList.push(label);
     });
+
+    console.log(radioButtons);
 
     if (radioButtons.length > 0) {
       setAnswerList(prevState => ({
@@ -109,6 +110,10 @@ function App() {
     setShowAnswer(isShow);
   }
 
+  function resetQuiz() {
+    setGeminiState('ready');
+  }
+
   return (
     <>
       {/* モーダル表示 */}
@@ -116,27 +121,33 @@ function App() {
         テスト
       </Modal>
 
-      {/* 問題生成のボタン */}
-      <QuizSetting onButtonClick={handleButtonClick} />
+      {geminiState !== 'finish' && (
+        <div className={styles.quizSetting}>
+          {/* 問題生成のボタン */}
+          <QuizSetting onButtonClick={handleButtonClick} />
 
-      {/* 実行の状態を表示 */}
-      <div className={styles.status}>
-        <p className={styles.status_text}>ステータス : </p>
-        {states
-          .filter((state) => state.stateNow === geminiState)
+          {/* 実行の状態を表示 */}
+          <div className={styles.status}>
+            <p className={styles.status_text}>ステータス : </p>
+            {states
+              .filter((state) => state.stateNow === geminiState)
           .map((state) => (
             <p key={state.stateNow} className={styles[`status_${state.stateNow}`]}>{state.stateValue}</p>
-          ))}
-      </div>
+              ))}
+          </div>
+        </div>
+      )}
 
+      {geminiState === "finish" && (
+        <Carousel height={500} slideSize="80%" controlsOffset="200px" controlSize="50px" slideGap="100px">
+          {quizs.quizList.map((question, index) => (
+            <Carousel.Slide>
+              <Quiz key={question.questionId} quizId={question.quiestionId} quizData={question} quizIndex={index} isShowAnswer={showAnswer} />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      )}
       {/* 問題文と選択肢と答えを設定 */}
-      <Carousel widthIndicators height={400} slideSize="80%" slideGap="100px" withIndicators >
-        {quizs.quizList.map((question, index) => (
-          <Carousel.Slide>
-            <Quiz key={question.questionId} quizId={question.quiestionId} quizData={question} quizIndex={index} isShowAnswer={showAnswer} />
-          </Carousel.Slide>
-        ))}
-      </Carousel>
 
       <div className={styles.button_low}>
         {/* 答え表示ボタン */}
@@ -144,6 +155,7 @@ function App() {
 
         {/* モーダル表示ボタン */}
         <Button variant="default" onClick={open}>モーダルを表示</Button>
+        <Button variant="default" onClick={resetQuiz}>リセットする</Button>
       </div>
     </>
   );
