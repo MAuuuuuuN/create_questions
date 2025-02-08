@@ -26,8 +26,6 @@ function App() {
       radioButtonList.push(label);
     });
 
-    console.log(radioButtons);
-
     if (radioButtons.length > 0) {
       setAnswerList(prevState => ({
         ...prevState,
