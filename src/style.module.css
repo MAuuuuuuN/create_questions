@@ -1,15 +1,16 @@
 .quizSetting {
-  width: 64%;
   height: 400px;
-  margin: 16px auto;
   padding: 28px;
+  margin: 0 auto;
   text-align: center;
   border-radius: 16px;
   box-shadow: 0 0 4px #000;
+  background-color: #fefefe;
 }
 
 .status {
   display: inline-block;
+  margin: 30px;
 }
 
 .status_text {
@@ -81,4 +82,12 @@ fieldset {
 .button_low span span {
   width: 100px;
   justify-content: center;
+}
+
+.quiz_show {
+  display: block;
+}
+
+.quiz_hidden {
+  display: none;
 }

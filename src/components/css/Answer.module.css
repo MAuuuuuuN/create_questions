@@ -1,0 +1,40 @@
+.answer {
+  text-align: center;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* .correct {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 4px;
+  width: 30%;
+  height: 50px;
+  line-height: 50px;
+  margin: 0 auto;
+} */
+
+.true {
+  background-color: blue;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 4px;
+  width: 30%;
+  height: 50px;
+  line-height: 50px;
+  margin: 0 auto;
+}
+
+.false {
+  background-color: red;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 4px;
+  width: 30%;
+  height: 50px;
+  line-height: 50px;
+  margin: 0 auto;
+}

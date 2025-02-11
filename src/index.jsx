@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import { QuizProvider } from './components/QuizContext.jsx';
 import { AnswerProvider } from './components/QuizContext.jsx';
+import { ResultProvider } from './components/QuizContext.jsx';
 import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import '@mantine/carousel/styles.css';
@@ -12,7 +13,9 @@ root.render(
     <MantineProvider>
         <QuizProvider>
             <AnswerProvider>
-                <App />
+                <ResultProvider>
+                    <App />
+                </ResultProvider>
             </AnswerProvider>
         </QuizProvider>
     </MantineProvider>

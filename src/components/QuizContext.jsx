@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 
 export const quizContext = createContext([]);
 export const answerContext = createContext([]);
+export const resultContext = createContext({});
 
 export function QuizProvider({ children }) {
   const [quizList, setQuizList] = useState([]);
@@ -21,10 +22,9 @@ export function AnswerProvider({ children }) {
     correct: []
   });
 
+  // answerListの中身が変わるたびに実行される
   useEffect(() => {
     const correctList = [];
-
-    console.log(answerList.userSelect.length);
 
     if (answerList.userSelect.length > 0) {
       answerList.userSelect.forEach((select, index) => {
@@ -45,6 +45,20 @@ export function AnswerProvider({ children }) {
   return (
     <answerContext.Provider value={{ answerList, setAnswerList }}>
       {children}
-    </answerContext.Provider>
+    </answerContext.Provider >
   )
 }
+
+export const ResultProvider = ({ children }) => {
+  const [result, setResult] = useState([]);
+
+  useEffect(() => {
+    // console.log('Result has changed:', result);
+  }, [result, setResult]);
+
+  return (
+    <resultContext.Provider value={{ result, setResult }}>
+      {children}
+    </resultContext.Provider >
+  );
+};
