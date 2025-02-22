@@ -27,21 +27,33 @@ db.connect(error => {
 })
 
 app.post("/api/quiz", (req, res) => {
-  const post = JSON.stringify(req.body.quiz);
-  const query = "INSERT INTO quiz_list (quiz) VALUES (?);";
+  const category = req.body.category;
+  const question_id = req.body.question_id;
+  const question = req.body.question;
+  const selects = req.body.selects;
+  const answer = req.body.answer;
+  const query = "INSERT INTO quiz_list (category, question_id, question, selects, answer) VALUES (?, ?, ?, ?, ?);";
 
-  db.query(query, [post], (error, result) => {
+  db.query(query, [category, question_id, question, selects, answer], (error, result) => {
     if(error) {
       console.log(error);
       return;
     }
-
     res.send(result);
   })
 });
 
+app.post("/api/select", (req, res) => {
+  const question_id = req.body.question_id;
+  const is_correct = req.body.is_correct;
+  const select_value = req.body.select_value;
+  const query = "INSERT INTO select_list (question_id, is_correct, select_value) VALUES (?, ?, ?);";
 
-
-
-
-
+  db.query(query, [question_id, is_correct, select_value], (error, result) => {
+    if(error) {
+      console.error(error);
+      return;
+    }
+    res.send(result);
+  })
+});

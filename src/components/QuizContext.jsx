@@ -49,12 +49,9 @@ export function AnswerProvider({ children }) {
   )
 }
 
+// 選択した選択肢を保存
 export const ResultProvider = ({ children }) => {
   const [result, setResult] = useState([]);
-
-  useEffect(() => {
-    // console.log('Result has changed:', result);
-  }, [result, setResult]);
 
   return (
     <resultContext.Provider value={{ result, setResult }}>

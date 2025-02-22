@@ -10,9 +10,12 @@ export default function Quiz({ quizIndex, questionData }) {
 
   return (
       <div className={`${styles.quiz}`} id="quiz">
+        {/* 問題を表示 */}
         <QuestionDisplay quizIndex={quizIndex} titleData={questionData.question} />
+        {/* 選択肢を表示 */}
         <SelectDisplay quizIndex={quizIndex} selectData={questionData.selects} radioRefs={radioRefs} />
-        <AnswerDisplay answerData={questionData.answer} radioRefs={radioRefs} />
+        {/* 答えを表示 */}
+        <AnswerDisplay answerData={questionData.answer} radioRefs={radioRefs} questionId={questionData.questionId} />
       </div>
   );
 }
