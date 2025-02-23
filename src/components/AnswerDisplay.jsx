@@ -32,14 +32,10 @@ export default function AnswerDisplay({ titleData, answerData, radioRefs, questi
     });
     setButtonLabel(isCorrect ? '正解' : '不正解');
 
-    console.log(questionId);
-    console.log(isCorrect);
-    console.log(selectedRadio.value);
-
     try {
       await addSelect(questionId, isCorrect, selectedRadio.value);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

@@ -36,7 +36,6 @@ function App() {
   // 問題を生成
   async function GeminiPrepare(value) {
     setGeminiState("start");
-    console.log('gemini : start');
     try {
       // geminiで問題をJSON形式で生成
       const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -66,16 +65,14 @@ function App() {
           await addQuiz(quiz);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
 
       // 問題出題ステータスを完了に変更
       setGeminiState("finish");
-      console.log("gemini : finished");
     } catch (error) {
       // エラー時の表示
       setGeminiState("error");
-      console.log("gemini : error");
       console.error(error);
     }
   }
