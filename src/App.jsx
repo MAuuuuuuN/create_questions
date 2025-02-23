@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from 'react';
-import { Button } from '@mantine/core';
 
 import Modal from './components/Modal.jsx';
 import QuizSetting from './components/QuizSetting.jsx';
@@ -11,7 +10,7 @@ import { addQuiz } from './http.js';
 
 function App() {
   const [geminiState, setGeminiState] = useState('ready');
-  const [nowShow, setNowShow] = useState();
+  const [nowShow, setNowShow] = useState(0);
 
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
@@ -120,7 +119,7 @@ function App() {
             <QuizResult />
             <div className={styles.button_low}>
               {/* モーダル表示ボタン */}
-              <Button variant="default" onClick={resetQuiz}>リセットする</Button>
+              <button onClick={resetQuiz} className={styles.reset}>最初から</button>
             </div>
           </div>
         </>

@@ -1,5 +1,6 @@
 .overlay {
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -11,11 +12,11 @@
 }
 
 .content {
-  z-index: 2;
-  width: 1000px;
+  width: 1100px;
+  height: 800px;
   padding: 20px;
   background-color: #fff;
-  box-shadow: 0px 0px 20px 0px #bcbcbc;;
+  box-shadow: 0px 0px 20px 0px #bcbcbc;
   border-radius: 5px;
 }
 
@@ -32,7 +33,7 @@
 }
 
 .table_area {
-  max-height: 600px;
+  height: 600px;
   overflow: scroll;
 }
 

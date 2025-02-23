@@ -15,7 +15,7 @@ export default function Quiz({ quizIndex, questionData }) {
         {/* 選択肢を表示 */}
         <SelectDisplay quizIndex={quizIndex} selectData={questionData.selects} radioRefs={radioRefs} />
         {/* 答えを表示 */}
-        <AnswerDisplay answerData={questionData.answer} radioRefs={radioRefs} questionId={questionData.questionId} />
+        <AnswerDisplay titleData={questionData.question} answerData={questionData.answer} radioRefs={radioRefs} questionId={questionData.questionId} />
       </div>
   );
 }

@@ -4,7 +4,7 @@ import { resultContext } from './QuizContext.jsx';
 import { addSelect } from '../http.js';
 import styles from './css/Answer.module.css';
 
-export default function AnswerDisplay({ answerData, radioRefs, questionId }) {
+export default function AnswerDisplay({ titleData, answerData, radioRefs, questionId }) {
   const { setResult } = useContext(resultContext);
   const [buttonLabel, setButtonLabel] = useState(null);
 
@@ -20,8 +20,15 @@ export default function AnswerDisplay({ answerData, radioRefs, questionId }) {
 
     const isCorrect = selectedRadio.value === answerData;
 
+    const questionResult = {
+      question: titleData,
+      correct: isCorrect,
+      answer: answerData,
+      select: selectedRadio.value,
+    }
+
     setResult((prev) => {
-      return [...prev, isCorrect]
+      return [...prev, questionResult]
     });
     setButtonLabel(isCorrect ? '正解' : '不正解');
 
