@@ -13,10 +13,10 @@ import { addQuiz } from './http.js';
 function App() {
   const [geminiState, setGeminiState] = useState('ready');
   const [nowShow, setNowShow] = useState(0);
+  const [ isShowModal, setIsShowModal ] = useState(false);
 
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
-  const [ isShowModal, setIsShowModal ] = useState(false);
 
   function showModal() {
     setIsShowModal(!isShowModal);
@@ -30,8 +30,8 @@ function App() {
       } else if (result.length > 0) {
         setNowShow(result.length);
       }
-    }, 1000);
-  }, [result, setResult])
+    }, 5000);
+  }, [result, setResult]);
 
   // 問題を生成
   async function GeminiPrepare(value) {

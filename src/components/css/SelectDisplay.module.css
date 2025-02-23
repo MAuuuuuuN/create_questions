@@ -25,6 +25,11 @@ li * {
   cursor: pointer;
 }
 
+.selectLabel {
+  display: block;
+  width: 100%;
+}
+
 input + p {
   display: inline-block;
   margin: 0;

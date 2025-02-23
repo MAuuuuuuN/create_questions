@@ -9,7 +9,7 @@ export default function SelectDisplay({ quizIndex, selectData, radioRefs }) {
         <ul className={styles.problem_list}>
           {selectParse.map((select, index) => (
             <li key={index}>
-              <label>
+              <label className={styles.selectLabel}>
                 <input name={quizIndex} type="radio" ref={(el) => (radioRefs.current[index] = el)} value={select}/>
                 <p>{select}</p>
               </label>

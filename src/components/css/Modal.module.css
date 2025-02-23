@@ -113,3 +113,15 @@
   color: #3795f3;
   border: 2px solid #3795f3;
 }
+
+.no_data {
+  height: 600px;
+}
+
+.no_data p {
+  text-align: center;
+}
+
+.no_data .close {
+  float: right;
+}

@@ -95,7 +95,6 @@ export default function Modal({ showModal }) {
               <button className={styles.close} onClick={showModal}>閉じる</button>
             </div>
           )}
-
         </div>
       </div>
     </>

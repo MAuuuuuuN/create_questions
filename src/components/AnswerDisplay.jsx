@@ -4,7 +4,7 @@ import { resultContext } from './QuizContext.jsx';
 import { addSelect } from '../http.js';
 import styles from './css/Answer.module.css';
 
-export default function AnswerDisplay({ titleData, answerData, radioRefs, questionId }) {
+export default function AnswerDisplay({ titleData, answerData, radioRefs, questionId, indicator }) {
   const { setResult } = useContext(resultContext);
   const [buttonLabel, setButtonLabel] = useState(null);
 
