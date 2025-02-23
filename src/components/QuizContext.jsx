@@ -7,6 +7,8 @@ export const resultContext = createContext({});
 export function QuizProvider({ children }) {
   const [quizList, setQuizList] = useState([]);
 
+  console.log(quizList);
+
   return (
     <quizContext.Provider value={{ quizList, setQuizList }}>
       {children}

@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { Button } from '@mantine/core';
 
+import Modal from './components/Modal.jsx';
 import QuizSetting from './components/QuizSetting.jsx';
 import Quiz from './components/Quiz.jsx';
 import QuizResult from './components/QuizResult.jsx';
@@ -14,6 +15,11 @@ function App() {
 
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
+  const [ isShowModal, setIsShowModal ] = useState(false);
+
+  function showModal() {
+    setIsShowModal(!isShowModal);
+  }
 
   // 正解を表示して数秒後に次の問題に遷移
   useEffect(() => {
@@ -81,10 +87,18 @@ function App() {
   // 問題出題をリセット
   function resetQuiz() {
     setGeminiState('ready');
+    setResult([]);
   }
 
   return (
     <>
+    <div className={styles.header}>
+      <button className={styles.header_button} onClick={showModal}>履歴表示</button>
+    </div>
+      {isShowModal && (
+        <Modal showModal={showModal} />
+      )}
+
       {geminiState !== 'finish' && (
         <div className={styles.quizSetting}>
           {/* 問題生成のボタン */}
@@ -97,7 +111,7 @@ function App() {
         <>
           {/* 答えた問題を元に次の問題を表示 */}
           {quizList.map((question, index) => (
-            <div  key={index} className={nowShow === index ? styles.quiz_show : styles.quiz_hidden}>
+            <div key={index} className={nowShow === index ? styles.quiz_show : styles.quiz_hidden}>
               <Quiz quizIndex={index} questionData={question} />
             </div>
           ))}

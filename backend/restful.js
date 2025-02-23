@@ -19,12 +19,54 @@ const db = mysql.createConnection({
 })
 
 db.connect(error => {
-  if(error) {
+  if (error) {
     console.log("SQL接続時にエラーが発生しました", error);
     return;
   }
   console.log("SQLに接続しました");
 })
+
+app.get("/api/history", (req, res) => {
+  const query = `
+    SELECT
+    	quiz_list.id,
+    	quiz_list.create_at,
+    	quiz_list.category,
+    	select_list.is_correct,
+    	quiz_list.question
+    FROM
+    	quiz_list
+    	JOIN select_list
+    	ON quiz_list.question_id = select_list.question_id;
+  `;
+
+  db.query(query, (error, result) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    res.send(result);
+  })
+});
+
+app.delete("/api/history", (req, res) => {
+  const delete_quiz = "TRUNCATE TABLE quiz_list;";
+  const delete_select = "TRUNCATE TABLE select_list;";
+
+  db.query(delete_quiz, (error, result) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    db.query(delete_select, (error, result) => {
+      if (error) {
+        console.log(error);
+        return;
+      }
+      res.send(result);
+    })
+  })
+});
 
 app.post("/api/quiz", (req, res) => {
   const category = req.body.category;
@@ -35,7 +77,7 @@ app.post("/api/quiz", (req, res) => {
   const query = "INSERT INTO quiz_list (category, question_id, question, selects, answer) VALUES (?, ?, ?, ?, ?);";
 
   db.query(query, [category, question_id, question, selects, answer], (error, result) => {
-    if(error) {
+    if (error) {
       console.log(error);
       return;
     }
@@ -50,7 +92,7 @@ app.post("/api/select", (req, res) => {
   const query = "INSERT INTO select_list (question_id, is_correct, select_value) VALUES (?, ?, ?);";
 
   db.query(query, [question_id, is_correct, select_value], (error, result) => {
-    if(error) {
+    if (error) {
       console.error(error);
       return;
     }
