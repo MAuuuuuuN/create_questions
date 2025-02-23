@@ -4,8 +4,10 @@ import Modal from './components/Modal.jsx';
 import QuizSetting from './components/QuizSetting.jsx';
 import Quiz from './components/Quiz.jsx';
 import QuizResult from './components/QuizResult.jsx';
-import styles from './style.module.css';
+import Loading from './components/Loading.jsx';
 import { quizContext, resultContext } from './components/QuizContext.jsx';
+
+import styles from './style.module.css';
 import { addQuiz } from './http.js';
 
 function App() {
@@ -98,10 +100,16 @@ function App() {
         <Modal showModal={showModal} />
       )}
 
-      {geminiState !== 'finish' && (
+      {(geminiState === 'ready' || geminiState ===  'error') && (
         <div className={styles.quizSetting}>
           {/* 問題生成のボタン */}
           <QuizSetting onButtonClick={handleButtonClick} />
+        </div>
+      )}
+
+      {geminiState === 'start' && (
+        <div>
+          <Loading />
         </div>
       )}
 

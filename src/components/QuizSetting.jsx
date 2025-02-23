@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { TextInput, Button } from '@mantine/core';
 
 import styles from './css/QuizSetting.module.css';
 
