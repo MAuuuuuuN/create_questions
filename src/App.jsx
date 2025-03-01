@@ -6,9 +6,9 @@ import Quiz from './components/Quiz.jsx';
 import QuizResult from './components/QuizResult.jsx';
 import Loading from './components/Loading.jsx';
 import { quizContext, resultContext } from './components/QuizContext.jsx';
+import { addQuiz } from './http.js';
 
 import styles from './style.module.css';
-import { addQuiz } from './http.js';
 
 function App() {
   const [geminiState, setGeminiState] = useState('ready');
@@ -45,7 +45,7 @@ function App() {
       const result = await model.generateContent(promptSelect);
 
       // 返ってきたレスポンスを整形
-      const formatResult = result.response.text().replaceAll("```", '').replace(/json\s/, '');
+      const formatResult = result.response.text().replace(/```/g, '').replace(/json\s/, '');
       const createQuiz = JSON.parse(formatResult);
 
       // 問題ごとにJSON形式で問題をuseStateで保存

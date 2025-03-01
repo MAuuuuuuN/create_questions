@@ -1,6 +1,5 @@
 export async function getHistory() {
   const quiz_history = 'http://localhost:3001/api/history';
-
   const response = await fetch(quiz_history);
   const response_data = await response.json();
   return response_data;
@@ -10,6 +9,13 @@ export async function deleteAllHistory() {
   const quiz_history = 'http://localhost:3001/api/history';
   const delete_method = { method: 'DELETE' }
   await fetch(quiz_history, delete_method);
+}
+
+export async function getCategory() {
+  const quiz_category = 'http://localhost:3001/api/history/category';
+  const response = await fetch(quiz_category);
+  const response_data = await response.json();
+  return response_data;
 }
 
 export async function addQuiz(quiz) {

@@ -10,6 +10,7 @@ export default function Modal({ showModal }) {
   useEffect(() => {
     async function getQuestionData() {
       const response = await getHistory();
+      console.log(response);
       const formatData = response.map((record) => {
         const dateOption = {
           timeZone: 'Asia/Tokyo',
@@ -19,7 +20,6 @@ export default function Modal({ showModal }) {
         }
         const utcDate = new Date(record.create_at);
         const jstDate = utcDate.toLocaleDateString('ja-JP', dateOption);
-
         let correct = "";
         if (record.is_correct === 1) {
           correct = "正解";

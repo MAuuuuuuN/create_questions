@@ -49,6 +49,33 @@ app.get("/api/history", (req, res) => {
   })
 });
 
+app.get("/api/history/category", (req, res) => {
+  const query = `
+    WITH order_date AS (
+      SELECT
+        category
+      FROM
+        quiz_list
+      ORDER BY
+        create_at DESC
+      LIMIT 20
+    )
+    SELECT DISTINCT
+      category
+    FROM
+      order_date
+    LIMIT 4;
+  `;
+
+  db.query(query, (error, result) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    res.send(result);
+  })
+});
+
 app.delete("/api/history", (req, res) => {
   const delete_quiz = "TRUNCATE TABLE quiz_list;";
   const delete_select = "TRUNCATE TABLE select_list;";
