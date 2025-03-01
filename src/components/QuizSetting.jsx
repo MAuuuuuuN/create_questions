@@ -13,17 +13,14 @@ export default function QuizSetting({ onButtonClick }) {
     (async () => {
       const responseCategory = await getCategory();
 
-      if(responseCategory.length > 0) {
-        const categoryList = [...category];
-        for(let i = 0; i < responseCategory.length; i++) {
+      if (responseCategory.length > 0) {
+        const categoryList = [];
+        for (let i = 0; i < responseCategory.length; i++) {
           categoryList.push(responseCategory[i].category);
-        }
-        while (categoryList.length > category.length) {
-          categoryList.shift();
         }
         setCategory(categoryList);
       }
-    } )();
+    })();
   }, [category]);
 
   function setting_prompt() {

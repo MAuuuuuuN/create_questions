@@ -9,6 +9,9 @@ export default function AnswerDisplay({ titleData, answerData, questionId, onChe
   const [buttonLabel, setButtonLabel] = useState(null);
 
   const handleClick = async () => {
+    if(!onCheckChange) {
+      return;
+    }
     const isCorrect = onCheckChange === answerData;
     const questionResult = {
       question: titleData,
