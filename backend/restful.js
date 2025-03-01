@@ -58,7 +58,6 @@ app.get("/api/history/category", (req, res) => {
         quiz_list
       ORDER BY
         create_at DESC
-      LIMIT 20
     )
     SELECT DISTINCT
       category

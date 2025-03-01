@@ -24,7 +24,7 @@ export default function QuizSetting({ onButtonClick }) {
         setCategory(categoryList);
       }
     } )();
-  }, []);
+  }, [category]);
 
   function setting_prompt() {
     onButtonClick(questionSet.current.value);
@@ -42,10 +42,6 @@ export default function QuizSetting({ onButtonClick }) {
 
   function handleCompositionEnd() {
     setIsComposing(false);
-  }
-
-  function getCategoryHisotry() {
-
   }
 
   function Setting(index) {

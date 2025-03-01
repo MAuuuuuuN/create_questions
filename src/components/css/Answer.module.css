@@ -1,4 +1,4 @@
-.showAnswer {
+.showAnswerAble {
   width: 200px;
   height: 50px;
   margin: 20px;
@@ -11,10 +11,22 @@
   transition: all 0.5s;
 }
 
-.showAnswer:hover {
+.showAnswerAble:hover {
   color: #57B789;
   background-color: #fff;
   border: 2px solid #57B789;
+}
+
+.showAnswerDisable {
+  width: 200px;
+  height: 50px;
+  margin: 20px;
+  background-color: #888e8b;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: 700;
+  border: none;
+  cursor: not-allowed;
 }
 
 .answer {
