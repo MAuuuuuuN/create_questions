@@ -30,7 +30,7 @@ function App() {
       } else if (result.length > 0) {
         setNowShow(result.length);
       }
-    }, 5000);
+    }, 3000);
   }, [result, setResult]);
 
   // 問題を生成
