@@ -49,7 +49,13 @@
   transition: 0.3s;
 }
 
-/* .category:hover {
-  padding: 8px 23px;
-  font-size: 18px;
-} */
+input.number_of_quiz {
+  height: 40px;
+  width: 100px;
+  text-align: center;
+}
+
+.level button {
+  padding: 5px 20px;
+  margin: 0 16px;
+}

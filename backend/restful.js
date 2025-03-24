@@ -63,6 +63,8 @@ app.get("/api/history/category", (req, res) => {
       category
     FROM
       order_date
+    WHERE
+      category != ""
     LIMIT 4;
   `;
 

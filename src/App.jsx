@@ -41,16 +41,20 @@ function App() {
       const { GoogleGenerativeAI } = require("@google/generative-ai");
       const geminiApiKey = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
       const model = geminiApiKey.getGenerativeModel({ model: "gemini-1.5-flash" });
-      const promptSelect = `${value}に関する知識を問う問題を3つ出題してください。questionに問題文、selectに選択肢、answerに正解の選択肢を入れてください。選択肢を4つ設けて,正解の選択肢は1つとするように設定してください。次のようなJSON形式のような形で出力してください。[{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"},{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"}]`;
+      const promptSelect = value.sentence;
       const result = await model.generateContent(promptSelect);
+
+      console.log(promptSelect);
 
       // 返ってきたレスポンスを整形
       const formatResult = result.response.text().replace(/```/g, '').replace(/json\s/, '');
       const createQuiz = JSON.parse(formatResult);
 
+      console.log(createQuiz);
+
       // 問題ごとにJSON形式で問題をuseStateで保存
       const newQuestions = createQuiz.map((splitQuiz) => ({
-        category: value,
+        category: value.category,
         questionId: crypto.randomUUID(),
         question: splitQuiz.question,
         selects: JSON.stringify(splitQuiz.select),
