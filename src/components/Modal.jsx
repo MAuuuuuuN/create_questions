@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getHistory, deleteAllHistory } from '../http.js';
 
-import styles from './css/Modal.module.css';
-
 export default function Modal({ showModal }) {
   const [historyData, setHistoryData] = useState([]);
 
@@ -55,44 +53,44 @@ export default function Modal({ showModal }) {
 
   return (
     <>
-      <div className={styles.overlay}>
-        <div className={styles.content}>
-          <h1 className={styles.title}>出題履歴</h1>
+      <div className="fixed flex justify-center items-center w-full h-full left-0 z-100 bg-stone-300/50">
+        <div className="w-300 h-200 p-5 bg-white shadow-md rounded-xl">
+          <h1 className="sticky text-2xl font-bold text-center">出題履歴</h1>
           {historyData.length > 0 ? (
             <>
-              <div className={styles.table_area}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr className={styles.table_header}>
-                      <th>ID</th>
-                      <th>出題日</th>
-                      <th>カテゴリー</th>
-                      <th>問題</th>
-                      <th>正誤</th>
+              <div className="my-5 h-150 overflow-scroll">
+                <table className="">
+                  <thead className="border-b-2 border-b-stone-200 sticky">
+                    <tr className="">
+                      <th className="w-[8%]">ID</th>
+                      <th className="w-[12%]">出題日</th>
+                      <th className="w-[12%]">カテゴリー</th>
+                      <th className="w-[60%]">問題</th>
+                      <th className="w-[8%]">正誤</th>
                     </tr>
                   </thead>
                   <tbody>
                     {historyData.map((record, index) => (
                       <tr key={index}>
-                        <td>{record.id}</td>
-                        <td>{record.create_at}</td>
-                        <td>{record.category}</td>
+                        <td className="text-center py-2">{record.id}</td>
+                        <td className="text-center">{record.create_at}</td>
+                        <td className="text-center">{record.category}</td>
                         <td>{record.question}</td>
-                        <td>{record.is_correct}</td>
+                        <td className="text-center">{record.is_correct}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <div className={styles.button_area}>
-                <button className={styles.delete} onClick={deleteHistory}>履歴を削除する</button>
-                <button className={styles.close} onClick={showModal}>閉じる</button>
+              <div className="flex justify-between p-5">
+                <button onClick={showModal} className="px-7 py-3 text-lg font-bold text-emerald-600 border-3 border-emerald-500 rounded-xl cursor-pointer transition duration-300 ease-in-out hover:bg-emerald-500 hover:text-white">閉じる</button>
+                <button onClick={deleteHistory} className="px-7 py-3 text-lg font-bold text-red-600 border-3 border-red-600 rounded-xl cursor-pointer transition duration-300 ease-in-out hover:bg-red-600 hover:text-white">履歴を削除する</button>
               </div>
             </>
           ) : (
-            <div className={styles.no_data}>
+            <div>
               <p>データがありません</p>
-              <button className={styles.close} onClick={showModal}>閉じる</button>
+              <button onClick={showModal}>閉じる</button>
             </div>
           )}
         </div>

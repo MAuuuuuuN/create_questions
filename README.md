@@ -1,34 +1,12 @@
-# create_questions
+# React + Vite
 
-## 概要
-Geminiを使って、問題を生成するアプリ
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 最初の設定
-1. "npm install" でインストール
-2. ".env_sample"ファイルを複製して、".env"にリネームする
-3. ".env"ファイル中の"REACT_APP_API_KEY"にGeminiのAPIキーを記入する(https://aistudio.google.com/apikey)
+Currently, two official plugins are available:
 
-## 使い方
-1. "npm run dev"で実行
-2. 出題したい内容をテキストエリアに入力(例:HTML、CSS、JavaScriptなど...)
-3. "作成"ボタンを押下
-4. 問題が生成(Gemini側の問題でエラーが発生したり、生成に時間がかかる可能性あり)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## ステータス
-Gemini側の問題で、生成に失敗したり、時間がかかる可能性があるため、現在の状態を表示
+## Expanding the ESLint configuration
 
-- 待機中 ... "生成"ボタンを押される前の状態
-- 実行中 ... "生成"ボタンを押した後の状態
-- 終了 ... 問題の生成が完了した状態
-- エラー ... Gemini側の問題で生成に失敗した状態 APIキーを確認して、再度実行
-
-## 今後のアップデート
--  問題の正誤判定を行えるようにする
--  リセットボタンを追加する
--  レイアウトを整える
-
-
-## 開発環境
-node.js : 16.20.2
-
-react : 18.3.1
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

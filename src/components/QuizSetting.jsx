@@ -1,14 +1,24 @@
-import { useRef, useState, useEffect } from 'react';
-import { getCategory } from '../http.js';
-
-import styles from './css/QuizSetting.module.css';
+import { useRef, useState, useEffect } from "react";
+import { getCategory } from "../http.js";
 
 export default function QuizSetting({ onButtonClick }) {
   const questionSet = useRef();
   const categoryRefs = useRef([]);
   const [isComposing, setIsComposing] = useState(false);
-  const [advancedSettings, setAdvancedSettings] = useState({"number_of_quiz" : 3, "level" : ""});
-  const [category, setCategory] = useState(["HTML", "CSS", "JavaScript", "HTTP"]);
+  const [advancedSettings, setAdvancedSettings] = useState({
+    number_of_quiz: 3,
+    level: "初心者",
+  });
+  const [openSettings, setOpenSettings] = useState({
+    number_of_quiz: false,
+    level: false,
+  });
+  const [category, setCategory] = useState([
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "HTTP",
+  ]);
 
   useEffect(() => {
     (async () => {
@@ -22,27 +32,33 @@ export default function QuizSetting({ onButtonClick }) {
         setCategory(categoryList);
       }
     })();
-  }, [category]);
+  }, []);
 
   function setting_prompt() {
     const prompt = {
-      "category" : questionSet.current.value,
-      "sentence" : ""
+      category: questionSet.current.value,
+      sentence: "",
     };
 
     prompt.sentence = `${prompt.category}に関する知識を問う問題を出題してください。`;
-    prompt.sentence = prompt.sentence + `問題は${advancedSettings.number_of_quiz}個出題してください。`;
+    prompt.sentence =
+      prompt.sentence +
+      `問題は${advancedSettings.number_of_quiz}個出題してください。`;
     if (advancedSettings.level) {
-      if(advancedSettings.level) {
-        prompt.sentence = prompt.sentence + `難易度は${advancedSettings.level}向けにしてください。`;
+      if (advancedSettings.level) {
+        prompt.sentence =
+          prompt.sentence +
+          `難易度は${advancedSettings.level}向けにしてください。`;
       }
     }
-    prompt.sentence = prompt.sentence + 'questionに問題文、selectに選択肢、answerに正解の選択肢を入れてください。選択肢を4つ設けて,正解の選択肢は1つとするように設定してください。次のようなJSON形式のような形で出力してください。[{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"},{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"}]';
+    prompt.sentence =
+      prompt.sentence +
+      'questionに問題文、selectに選択肢、answerに正解の選択肢を入れてください。選択肢を4つ設けて,正解の選択肢は1つとするように設定してください。次のようなJSON形式のような形で出力してください。[{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"},{"question":"QQQQQQQ","select":["SSSS","SSSS","SSSS","SSSS"],"answer":"AAAAAAA"}]';
     onButtonClick(prompt);
   }
 
   function handleKeyDown(e) {
-    if (e.key === 'Enter' && !isComposing) {
+    if (e.key === "Enter" && !isComposing) {
       setting_prompt();
     }
   }
@@ -58,55 +74,172 @@ export default function QuizSetting({ onButtonClick }) {
   function Setting(index) {
     const selectedCategory = categoryRefs.current[index].textContent;
     document.getElementById("create").value = selectedCategory;
-    setting_prompt();
+  }
+
+  function openNumberChange() {
+    if(!openSettings.number_of_quiz) {
+      setOpenSettings({
+        number_of_quiz: true,
+        level: false,
+      });
+    } else {
+      setOpenSettings({
+        number_of_quiz: false,
+        level: false,
+      });
+    }
+  }
+
+  function openLevelChange() {
+    if(!openSettings.level) {
+      setOpenSettings({
+        number_of_quiz: false,
+        level: true,
+      });
+    } else {
+      setOpenSettings({
+        number_of_quiz: false,
+        level: false,
+      });
+    }
   }
 
   const handleNumberChange = (e) => {
-    const number_value = parseInt(e.target.value) || 3;
-    setAdvancedSettings(prev => ({
+    const number_value = parseInt(e.target.value);
+    if (!Number.isInteger(number_value)) {
+      return;
+    }
+    setAdvancedSettings((prev) => ({
       ...prev,
-      "number_of_quiz": number_value
+      number_of_quiz: number_value,
     }));
-  }
+  };
 
   const handleLevelChange = (e) => {
     const level_value = e.target.value;
-    setAdvancedSettings(prev => ({
+    setAdvancedSettings((prev) => ({
       ...prev,
-      "level": level_value
+      level: level_value,
     }));
-  }
+  };
 
   return (
-    <div>
-      <h1>Generate Quiz by Gemini AI</h1>
-      <input className={styles.input} id="create" onKeyDown={handleKeyDown} onCompositionStart={handleCompositionStart} onCompositionEnd={handleCompositionEnd} type="text" placeholder="例:HTML,CSS,JavaScript etc..." ref={questionSet}/>
-      <div className={styles.categories}>
-        {category.map((category, index) => (
-          <p key={index} className={styles.category} onClick={() => Setting(index)} ref={el => categoryRefs.current[index] = el}>{category}</p>
-        ))}
-      </div>
-        <div>
-          <div>
-            <p>問題数設定</p>
-            <label>
-              <input className={styles.number_of_quiz} min="1" max="10" onChange={handleNumberChange}/>
-            </label>
+    <>
+      <div>
+        <h2 className="text-center text-3xl text-stone-800 font-bold">
+          今日は何を学習しますか？
+        </h2>
+        <div className="py-5">
+          {category.map((category, index) => (
+            <button
+              className="border-2 border-gray-200 mx-5 px-5 py-1 rounded-md cursor-pointer hover:bg-gray-200"
+              key={index}
+              onClick={() => Setting(index)}
+              ref={(el) => (categoryRefs.current[index] = el)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <div className="m-auto px-2 w-150 h-auto border-1 border-gray-200 shadow-md rounded-md">
+          <div className="">
+            <input
+              type="text"
+              id="create"
+              className="w-full p-3 pb-5 focus:outline-none"
+              onKeyDown={handleKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
+              ref={questionSet}
+              placeholder="Let's do it!"
+            />
           </div>
-          <div className={styles.level}>
-            <p>難易度設定</p>
-            <label>
-              <input type="radio" name="level" value="初心者" checked={advancedSettings.level === "初心者"} onChange={handleLevelChange}/>初心者
-            </label>
-            <label>
-              <input type="radio" name="level" value="中級者" checked={advancedSettings.level === "中級者"} onChange={handleLevelChange}/>中級者
-            </label>
-            <label>
-              <input type="radio" name="level" value="上級者" checked={advancedSettings.level === "上級者"} onChange={handleLevelChange}/>上級者
-            </label>
+          <div className="flex justify-between mx-2 pb-3">
+            <div>
+              <div
+                className="inline-block mr-1 px-4 py-1 border-1 border-gray-200 rounded-3xl cursor-pointer hover:bg-gray-200"
+                onClick={openNumberChange}
+              >
+                <p className="inline-block">問題数 : </p>
+                <label className="inline-block ml-1 cursor-pointer">
+                  <p>{advancedSettings.number_of_quiz}問</p>
+                </label>
+              </div>
+              <div
+                className="inline-block ml-1 px-4 py-1 border-1 border-gray-200 rounded-3xl cursor-pointer hover:bg-gray-200"
+                onClick={openLevelChange}
+              >
+                <p>{advancedSettings.level}</p>
+              </div>
+            </div>
+            <button className="cursor-pointer" onClick={setting_prompt}>
+              作成
+            </button>
           </div>
         </div>
-      <button onClick={setting_prompt} className={styles.button}>作成</button>
-    </div>
-  )
+        <div className="h-30 p-5">
+        {openSettings.number_of_quiz && (
+          <div className="flex w-auto pt-2 pb-4 pl-8 border-b-2 border-b-stone-400">
+            <p className="mr-1">問題数設定 : </p>
+            <div className="">
+              <input
+                className="inline-block mr-1 w-10 border-b-1 border-stone-300 text-right bg-white outline-none"
+                type="text"
+                onChange={handleNumberChange}
+              />
+              <p className="inline-block">問</p>
+            </div>
+            {/* <p className="ml-5 text-stone-500">※最大10問まで</p> */}
+          </div>
+        )}
+        {openSettings.level && (
+          <div className="flex w-auto p-2 pl-8 border-b-2 border-b-stone-400">
+            <p className="mr-1 py-1">難易度設定 : </p>
+            <div className="">
+              <label className="inline-block">
+                <input
+                  type="radio"
+                  name="level"
+                  className="hidden"
+                  value="初心者"
+                  checked={advancedSettings.level === "初心者"}
+                  onChange={handleLevelChange}
+                />
+                <p className="inline-block ml-1 px-4 py-1 border-1 border-stone-300 rounded-3xl cursor-pointer hover:border-gray-200">
+                  初心者
+                </p>
+              </label>
+              <label className="inline-block">
+                <input
+                  type="radio"
+                  name="level"
+                  className="hidden"
+                  value="中級者"
+                  checked={advancedSettings.level === "中級者"}
+                  onChange={handleLevelChange}
+                />
+                <p className="inline-block ml-1 px-4 py-1 border-1 border-stone-300 rounded-3xl cursor-pointer hover:border-gray-200">
+                  中級者
+                </p>
+              </label>
+              <label className="inline-block">
+                <input
+                  type="radio"
+                  name="level"
+                  className="hidden"
+                  value="上級者"
+                  checked={advancedSettings.level === "上級者"}
+                  onChange={handleLevelChange}
+                />
+                <p className="inline-block ml-1 px-4 py-1 border-1 border-stone-300 rounded-3xl cursor-pointer hover:border-gray-200">
+                  上級者
+                </p>
+              </label>
+            </div>
+          </div>
+        )}
+        </div>
+      </div>
+    </>
+  );
 }

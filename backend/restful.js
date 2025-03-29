@@ -1,8 +1,14 @@
-const express = require("express");
-const path = require("path");
-const cors = require("cors");
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import mysql from 'mysql2';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
-const mysql = require("mysql2");
 
 app.use(cors());
 app.use(express.json());

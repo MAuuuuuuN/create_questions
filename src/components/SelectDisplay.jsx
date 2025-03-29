@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import styles from './css/SelectDisplay.module.css';
-
-export default function SelectDisplay({ quizIndex, selectData, onCheckChange }) {
+export default function SelectDisplay({
+  quizIndex,
+  selectData,
+  onCheckChange,
+}) {
   const selectParse = JSON.parse(selectData);
   const [checkedValue, setChackedValue] = useState(null);
 
@@ -15,22 +17,26 @@ export default function SelectDisplay({ quizIndex, selectData, onCheckChange }) 
   return (
     <>
       <fieldset>
-        <ul className={styles.problem_list}>
+        <ul>
           {selectParse.map((select, index) => (
-            <li key={index} className={checkedValue === select ? styles.checked : ""}>
-              <label className={styles.selectLabel}>
+            <li
+              key={index}
+              className={`flex items-center justify-center m-5 p-2 border-3 shadow-md rounded-md text-lg transition duration-300 ease-in-out ${checkedValue === select ? "bg-indigo-100  border-blue-500" : "border-gray-200 hover:bg-indigo-50 hover:border-3 hover:border-blue-300"}`}
+            >
+              <label className="flex items-center justify-center w-200 min-h-15 cursor-pointer">
                 <input
                   name={quizIndex}
                   type="radio"
+                  className="hidden"
                   value={select}
                   onChange={handleChange}
                 />
-                <p>{select}</p>
+                <p className="m-auto">{select}</p>
               </label>
             </li>
           ))}
         </ul>
       </fieldset>
     </>
-  )
+  );
 }

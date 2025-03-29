@@ -1,13 +1,10 @@
 import { useContext, useState } from 'react';
 import { resultContext } from './QuizContext.jsx';
-
 import { addSelect } from '../http.js';
-import styles from './css/Answer.module.css';
 
 export default function AnswerDisplay({ titleData, answerData, questionId, onCheckChange }) {
   const { setResult } = useContext(resultContext);
   const [buttonLabel, setButtonLabel] = useState(null);
-
   const handleClick = async () => {
     if(!onCheckChange) {
       return;
@@ -34,15 +31,15 @@ export default function AnswerDisplay({ titleData, answerData, questionId, onChe
 
   return (
     <>
-      <div className={styles.answer}>
+      <div className="w-200 min-h-20 m-auto mt-10 text-center border-3 border-green-600 shadow-md rounded-md transition duration-300 ease-in-out hover:bg-green-50 hover:border-3 hover:border-lime-400">
         {buttonLabel != null ? (
           <>
-            <div className={buttonLabel === "正解" ? styles.true : styles.false}>
-              <p>{buttonLabel}</p>
+            <div>
+              <p className="font-bold text-lg m-2">{buttonLabel}</p>
             </div>
-            <p>正解の選択肢 : {answerData}</p>
+            <p className="m-2">正解の選択肢 : {answerData}</p>
           </>
-        ) : <button onClick={handleClick} className={onCheckChange !== null ? styles.showAnswerAble : styles.showAnswerDisable}>正解を表示する</button>}
+        ) : <button onClick={handleClick} className="w-full h-full text-lg font-bold cursor-pointer">正解を表示する</button>}
       </div>
     </>
   )
