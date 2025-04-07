@@ -64,7 +64,7 @@ function App() {
       // 問題ごとにJSON形式で問題をuseStateで保存
       const newQuestions = createQuiz.map((splitQuiz) => ({
         category: value.category,
-        questionId: crypto.randomUUID(),
+        questionId: uuidv4(),
         question: splitQuiz.question,
         selects: JSON.stringify(splitQuiz.select),
         answer: splitQuiz.answer,
