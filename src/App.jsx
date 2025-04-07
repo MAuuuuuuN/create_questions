@@ -8,6 +8,7 @@ import IncorrectModal from "./components/IncorrectModal.jsx";
 import { quizContext, resultContext } from "./components/QuizContext.jsx";
 import { addQuiz } from "./http.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [geminiState, setGeminiState] = useState("ready");
