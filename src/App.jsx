@@ -4,6 +4,7 @@ import QuizSetting from "./components/QuizSetting.jsx";
 import Quiz from "./components/Quiz.jsx";
 import QuizResult from "./components/QuizResult.jsx";
 import Loading from "./components/Loading.jsx";
+import IncorrectModal from "./components/IncorrectModal.jsx";
 import { quizContext, resultContext } from "./components/QuizContext.jsx";
 import { addQuiz } from "./http.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -12,12 +13,17 @@ function App() {
   const [geminiState, setGeminiState] = useState("ready");
   const [nowShow, setNowShow] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowIncorrect, setIsShowIncorrect] = useState(false);
 
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
 
   function showModal() {
     setIsShowModal(!isShowModal);
+  }
+
+  function showIncorrect() {
+    setIsShowIncorrect(!isShowIncorrect);
   }
 
   // 正解を表示して数秒後に次の問題に遷移
@@ -38,7 +44,7 @@ function App() {
       // geminiで問題をJSON形式で生成
       const geminiApiKey = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY);
       const model = geminiApiKey.getGenerativeModel({
-        model: "gemini-1.5-flash",
+        model: "gemini-2.0-flash",
       });
       const promptSelect = value.sentence;
       const result = await model.generateContent(promptSelect);
@@ -94,12 +100,10 @@ function App() {
     setResult([]);
   }
 
-  console.log("app render");
-
   return (
     <>
       <div className="flex h-screen">
-        <aside className="w-64 h-auto bg-gray-100 flex-none text-center">
+        <aside className="sm:w-64 hidden sm:block h-auto bg-gray-100 flex-none text-center">
           <div className="">
             <img
               src="src/images/Qreate.png"
@@ -114,7 +118,7 @@ function App() {
                 履歴表示
               </button>
               <button
-                // onClick={showModal}
+                onClick={showIncorrect}
                 className="my-2 px-15 py-1 rounded-xl text-center cursor-pointer hover:bg-stone-300"
               >
                 不正解出題
@@ -124,6 +128,7 @@ function App() {
         </aside>
         <div className="flex-1 flex justify-center items-center">
           {isShowModal && <Modal showModal={showModal} />}
+          {isShowIncorrect && <IncorrectModal showModal={showIncorrect} />}
 
           {/* 問題生成のボタン */}
           {(geminiState === "ready" || geminiState === "error") && (

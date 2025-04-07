@@ -31,7 +31,7 @@ export default function AnswerDisplay({ titleData, answerData, questionId, onChe
 
   return (
     <>
-      <div className="w-200 min-h-20 m-auto mt-10 text-center border-3 border-green-600 shadow-md rounded-md transition duration-300 ease-in-out hover:bg-green-50 hover:border-3 hover:border-lime-400">
+      <div className="sm:w-200 w-100 min-h-20 m-auto mt-10 sm:mx-auto text-center border-3 border-green-600 shadow-md rounded-md transition duration-300 ease-in-out hover:bg-green-50 hover:border-3 hover:border-lime-400">
         {buttonLabel != null ? (
           <>
             <div>

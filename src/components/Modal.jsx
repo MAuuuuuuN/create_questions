@@ -89,8 +89,8 @@ export default function Modal({ showModal }) {
             </>
           ) : (
             <div>
-              <p>データがありません</p>
-              <button onClick={showModal}>閉じる</button>
+              <p className="text-center">データがありません</p>
+              <button onClick={showModal} className="px-7 py-3 text-lg font-bold text-emerald-600 border-3 border-emerald-500 rounded-xl cursor-pointer transition duration-300 ease-in-out hover:bg-emerald-500 hover:text-white">閉じる</button>
             </div>
           )}
         </div>

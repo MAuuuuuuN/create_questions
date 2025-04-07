@@ -11,7 +11,7 @@ export default function Quiz({ quizIndex, questionData }) {
   };
 
   return (
-    <div id="quiz">
+    <div id="quiz" className="sm:w-auto w-dvw">
       {/* 問題を表示 */}
       <QuestionDisplay quizIndex={quizIndex} titleData={questionData.question} />
       {/* 選択肢を表示 */}

@@ -35,6 +35,9 @@ export default function QuizSetting({ onButtonClick }) {
   }, []);
 
   function setting_prompt() {
+    if(!questionSet.current.value) {
+      return;
+    }
     const prompt = {
       category: questionSet.current.value,
       sentence: "",
@@ -129,10 +132,10 @@ export default function QuizSetting({ onButtonClick }) {
         <h2 className="text-center text-3xl text-stone-800 font-bold">
           今日は何を学習しますか？
         </h2>
-        <div className="py-5">
+        <div className="sm:my-0 my-2 sm:py-5 px-3 sm:px-0 text-center">
           {category.map((category, index) => (
             <button
-              className="border-2 border-gray-200 mx-5 px-5 py-1 rounded-md cursor-pointer hover:bg-gray-200"
+              className="border-2 border-gray-200 sm:mx-5 mx-1 sm:my-0 my-1 px-5 py-1 rounded-md cursor-pointer hover:bg-gray-200"
               key={index}
               onClick={() => Setting(index)}
               ref={(el) => (categoryRefs.current[index] = el)}
@@ -141,7 +144,7 @@ export default function QuizSetting({ onButtonClick }) {
             </button>
           ))}
         </div>
-        <div className="m-auto px-2 w-150 h-auto border-1 border-gray-200 shadow-md rounded-md">
+        <div className="sm:m-auto m-2 px-2 sm:w-150 h-auto border-1 border-gray-200 shadow-md rounded-md">
           <div className="">
             <input
               type="text"
@@ -172,7 +175,7 @@ export default function QuizSetting({ onButtonClick }) {
                 <p>{advancedSettings.level}</p>
               </div>
             </div>
-            <button className="cursor-pointer" onClick={setting_prompt}>
+            <button className={`px-4 py-1 border-1 border-gray-200 bg-stone-800 text-white rounded-3xl ${questionSet.current?.value ? "hover:bg-stone-200 hover:text-stone-800 cursor-pointer" : "cursor-not-allowed"}`} onClick={setting_prompt}>
               作成
             </button>
           </div>
