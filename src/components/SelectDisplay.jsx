@@ -1,42 +1,29 @@
-import { useState } from "react";
-
-export default function SelectDisplay({
-  quizIndex,
-  selectData,
-  onCheckChange,
-}) {
-  const selectParse = JSON.parse(selectData);
-  const [checkedValue, setChackedValue] = useState(null);
-
-  const handleChange = (event) => {
-    const value = event.target.value;
-    onCheckChange(value);
-    setChackedValue(value);
-  };
-
+export default function SelectDisplay({ select, onSelect, isSelected }) {
   return (
-    <>
-      <fieldset className="my-2">
-        <ul>
-          {selectParse.map((select, index) => (
-            <li
-              key={index}
-              className={`flex items-center text-center justify-center sm:w-auto w-100 sm:m-5 mx-auto my-1 p-2 border-3 shadow-md rounded-md text-lg transition duration-300 ease-in-out ${checkedValue === select ? "bg-indigo-100  border-blue-500" : "border-gray-200 hover:bg-indigo-50 hover:border-3 hover:border-blue-300"}`}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+      {select.map((option, index) => (
+        <button
+          key={index}
+          onClick={() => onSelect(option)}
+          className={`p-4 text-left rounded-lg transition-all duration-200 border-2
+            ${isSelected === option 
+              ? 'bg-indigo-50 border-indigo-500 text-indigo-700 shadow-md transform -translate-y-1'
+              : 'bg-white border-gray-200 text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+            }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className={`w-6 h-6 flex items-center justify-center rounded-full border-2
+              ${isSelected === option
+                ? 'border-indigo-500 bg-indigo-500 text-white'
+                : 'border-gray-300'
+              }`}
             >
-              <label className="flex items-center justify-center w-200 min-h-15 cursor-pointer">
-                <input
-                  name={quizIndex}
-                  type="radio"
-                  className="hidden"
-                  value={select}
-                  onChange={handleChange}
-                />
-                <p className="m-auto">{select}</p>
-              </label>
-            </li>
-          ))}
-        </ul>
-      </fieldset>
-    </>
+              <span className="text-sm">{String.fromCharCode(65 + index)}</span>
+            </div>
+            <span className="flex-1">{option}</span>
+          </div>
+        </button>
+      ))}
+    </div>
   );
 }
