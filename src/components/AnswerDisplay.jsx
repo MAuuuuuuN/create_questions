@@ -1,4 +1,48 @@
-export default function AnswerDisplay({ isCorrect, correctAnswer, selectedAnswer }) {
+import { useContext, useState } from 'react';
+import { resultContext } from './QuizContext';
+import { addSelect } from '../http';
+
+export default function AnswerDisplay({ titleData, answerData, questionId, onCheckChange }) {
+  const { result, setResult } = useContext(resultContext);
+  const [isAnswered, setIsAnswered] = useState(false);
+
+  const handleAnswer = () => {
+    if (!onCheckChange) return;
+    
+    const isCorrect = onCheckChange === answerData;
+    const newResult = {
+      question: titleData,
+      answer: answerData,
+      select: onCheckChange,
+      correct: isCorrect
+    };
+
+    setResult([...result, newResult]);
+    setIsAnswered(true);
+
+    // 選択した結果をDBに保存
+    addSelect(questionId, isCorrect, onCheckChange);
+  };
+
+  if (!isAnswered) {
+    return (
+      <div className="mt-8 flex justify-center">
+        <button
+          onClick={handleAnswer}
+          disabled={!onCheckChange}
+          className={`px-6 py-3 rounded-lg font-medium transition-all duration-200
+            ${onCheckChange 
+              ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
+        >
+          回答する
+        </button>
+      </div>
+    );
+  }
+
+  const isCorrect = onCheckChange === answerData;
+
   return (
     <div className={`mt-8 p-6 rounded-lg border-l-4 ${
       isCorrect ? 'bg-green-50 border-l-green-500' : 'bg-red-50 border-l-red-500'
@@ -31,7 +75,7 @@ export default function AnswerDisplay({ isCorrect, correctAnswer, selectedAnswer
           <span className={`px-3 py-1 rounded-full text-sm ${
             isCorrect ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
           }`}>
-            {correctAnswer}
+            {answerData}
           </span>
         </div>
 
@@ -39,7 +83,7 @@ export default function AnswerDisplay({ isCorrect, correctAnswer, selectedAnswer
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-600">あなたの回答:</span>
             <span className="px-3 py-1 rounded-full bg-red-100 text-red-800 text-sm">
-              {selectedAnswer}
+              {onCheckChange}
             </span>
           </div>
         )}

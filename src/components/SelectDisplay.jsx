@@ -1,4 +1,6 @@
-export default function SelectDisplay({ select, onSelect, isSelected }) {
+export default function SelectDisplay({ select = [], onSelect, isSelected }) {
+  if (!select) return null;
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
       {select.map((option, index) => (

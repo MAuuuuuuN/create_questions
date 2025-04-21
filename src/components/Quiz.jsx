@@ -12,6 +12,7 @@ const STYLES = {
 
 const Quiz = ({ quizIndex, questionData }) => {
   const [checkedValue, setCheckedValue] = useState(null);
+  const selectOptions = JSON.parse(questionData.selects);
 
   const handleSelectChange = (value) => {
     setCheckedValue(value);
@@ -29,9 +30,9 @@ const Quiz = ({ quizIndex, questionData }) => {
         
         <div className={STYLES.section}>
           <SelectDisplay 
-            quizIndex={quizIndex} 
-            selectData={questionData.selects} 
-            onCheckChange={handleSelectChange} 
+            select={selectOptions}
+            onSelect={handleSelectChange}
+            isSelected={checkedValue}
           />
         </div>
 

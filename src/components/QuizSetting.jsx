@@ -93,6 +93,12 @@ export default function QuizSetting({ onButtonClick }) {
     }));
   };
 
+  // 入力値が有効かどうかを確認する関数を追加
+  const isValidInput = () => {
+    const value = questionSet.current?.value || '';
+    return value.trim().length > 0;
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h2 className="text-center text-3xl text-gray-800 font-bold mb-8">
@@ -152,11 +158,11 @@ export default function QuizSetting({ onButtonClick }) {
 
           <button
             className={`px-6 py-2 rounded-full font-medium transition-all duration-200
-                    ${questionSet.current?.value
+                    ${isValidInput()
                       ? 'bg-indigo-600 text-white hover:bg-indigo-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
             onClick={setting_prompt}
-            disabled={!questionSet.current?.value}
+            disabled={!isValidInput()}
           >
             作成
           </button>

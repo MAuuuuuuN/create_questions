@@ -26,6 +26,7 @@ function App() {
   const [nowShow, setNowShow] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowIncorrect, setIsShowIncorrect] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
@@ -36,6 +37,10 @@ function App() {
 
   const showIncorrect = useCallback(() => {
     setIsShowIncorrect(prev => !prev);
+  }, []);
+
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarOpen(prev => !prev);
   }, []);
 
   useEffect(() => {
@@ -65,6 +70,9 @@ function App() {
         .replace(/json\s/, "");
       
       const createQuiz = JSON.parse(formatResult);
+
+      console.log("クイズ生成JSON", createQuiz);
+
       const newQuestions = createQuiz.map((splitQuiz) => ({
         category: value.category,
         questionId: uuidv4(),
@@ -132,9 +140,14 @@ function App() {
   };
 
   return (
-    <div className="flex h-screen">
-      <Sidebar onShowModal={showModal} onShowIncorrect={showIncorrect} />
-      <div className="flex-1 flex justify-center items-center">
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar 
+        showModal={showModal} 
+        showIncorrect={showIncorrect} 
+        isOpen={isSidebarOpen}
+        onToggle={toggleSidebar}
+      />
+      <div className="flex-1 flex justify-center items-center p-4 lg:p-8">
         {isShowModal && <Modal showModal={showModal} />}
         {isShowIncorrect && <IncorrectModal showModal={showIncorrect} />}
         {renderQuizContent()}
