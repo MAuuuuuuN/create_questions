@@ -7,9 +7,10 @@ import Loading from "./components/Loading.jsx";
 import IncorrectModal from "./components/IncorrectModal.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import { quizContext, resultContext } from "./components/QuizContext.jsx";
-import { addQuiz } from "./http.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { v4 as uuidv4 } from 'uuid';
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(import.meta.env.VITE_SUPABASE_KEY, import.meta.env.VITE_ANON_KEY);
 
 // 定数の分離
 const GEMINI_STATES = {
@@ -84,7 +85,19 @@ function App() {
       setQuizList(newQuestions);
 
       try {
-        await Promise.all(newQuestions.map(quiz => addQuiz(quiz)));
+        const { error } = await supabase
+          .from('quizList')
+          .insert(newQuestions.map(quiz => ({
+            category: quiz.category,
+            questionId: quiz.questionId,
+            question: quiz.question,
+            select: quiz.selects,
+            answer: quiz.answer
+          })));
+
+          if (error !== null) {
+            throw new Error(error);
+          }
       } catch (error) {
         console.error("Failed to save quizzes:", error);
       }
@@ -147,7 +160,7 @@ function App() {
         isOpen={isSidebarOpen}
         onToggle={toggleSidebar}
       />
-      <div className="flex-1 flex justify-center items-center p-4 lg:p-8">
+      <div className="flex-1 flex justify-center items-center p-4 lg:p-8  bg-neutral-100">
         {isShowModal && <Modal showModal={showModal} />}
         {isShowIncorrect && <IncorrectModal showModal={showIncorrect} />}
         {renderQuizContent()}

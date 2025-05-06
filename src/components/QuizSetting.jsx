@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import { getCategory } from "../http.js";
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(import.meta.env.VITE_SUPABASE_KEY, import.meta.env.VITE_ANON_KEY);
 
 // 定数の分離
 const DEFAULT_SETTINGS = {
@@ -23,9 +24,16 @@ export default function QuizSetting({ onButtonClick }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const responseCategory = await getCategory();
-        if (responseCategory?.length > 0) {
-          const categoryList = responseCategory.map(item => item.category);
+        const {data, error} = await supabase
+          .from('recent_category')
+          .select('*');
+
+        if (error !== null) {
+          throw new Error(error);
+        }
+
+        if (data?.length > 0) {
+          const categoryList = data.map(item => item.category);
           setCategory(categoryList);
         }
       } catch (error) {
@@ -100,7 +108,7 @@ export default function QuizSetting({ onButtonClick }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="max-w-2xl mx-auto w-2xl p-6">
       <h2 className="text-center text-3xl text-gray-800 font-bold mb-8">
         今日は何を学習しますか？
       </h2>
@@ -110,7 +118,7 @@ export default function QuizSetting({ onButtonClick }) {
           <button
             key={cat}
             className="px-5 py-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm 
-                     text-gray-700 hover:bg-gray-50 hover:border-gray-300 
+                     text-gray-700 cursor-pointer hover:bg-gray-50 hover:border-gray-300 
                      transition-all duration-200 ease-in-out"
             onClick={() => handleCategorySelect(index)}
             ref={(el) => (categoryRefs.current[index] = el)}
@@ -124,7 +132,7 @@ export default function QuizSetting({ onButtonClick }) {
         <input
           type="text"
           id="create"
-          className="w-full p-4 text-lg bg-gray-50 border border-gray-200 rounded-lg
+          className="w-full p-4 text-lg bg-gray-50 border-2 border-gray-200 rounded-lg
                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
                    transition-all duration-200"
           onKeyDown={handleKeyDown}
@@ -137,7 +145,7 @@ export default function QuizSetting({ onButtonClick }) {
         <div className="flex justify-between items-center mt-6">
           <div className="flex gap-3">
             <button
-              className={`px-4 py-2 rounded-full border-2 transition-all duration-200
+              className={`px-4 py-2 rounded-full border-2 transition-all duration-200 cursor-pointer
                       ${openSettings.number_of_quiz 
                         ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
@@ -146,7 +154,7 @@ export default function QuizSetting({ onButtonClick }) {
               問題数: {advancedSettings.number_of_quiz}問
             </button>
             <button
-              className={`px-4 py-2 rounded-full border-2 transition-all duration-200
+              className={`px-4 py-2 rounded-full border-2 transition-all duration-200 cursor-pointer
                       ${openSettings.level
                         ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}

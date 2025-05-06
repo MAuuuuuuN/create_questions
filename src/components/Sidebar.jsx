@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import HistoryModal from './HistoryModal';
+import IncorrectModal from './IncorrectModal';
 
 export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) {
+  const [showReview, setShowReview] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
 
   return (
@@ -48,7 +50,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
               <button
                 onClick={showModal}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700
-                         rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                         rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200"
               >
                 <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -58,9 +60,9 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
               </button>
 
               <button
-                onClick={showIncorrect}
+                onClick={() => setShowReview(true)}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700
-                         rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                         rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200"
               >
                 <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -72,7 +74,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
               <button
                 onClick={() => setShowHistory(true)}
                 className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700
-                         rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                         rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200"
               >
                 <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -103,6 +105,11 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
           aria-hidden="true"
         />
       )}
+
+      <IncorrectModal 
+        isOpen={showReview} 
+        onClose={() => setShowReview(false)} 
+      />
 
       <HistoryModal 
         isOpen={showHistory} 

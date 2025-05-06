@@ -1,12 +1,14 @@
 import { useContext, useState } from 'react';
 import { resultContext } from './QuizContext';
-import { addSelect } from '../http';
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(import.meta.env.VITE_SUPABASE_KEY, import.meta.env.VITE_ANON_KEY);
 
 export default function AnswerDisplay({ titleData, answerData, questionId, onCheckChange }) {
   const { result, setResult } = useContext(resultContext);
   const [isAnswered, setIsAnswered] = useState(false);
 
-  const handleAnswer = () => {
+  const handleAnswer = async () => {
     if (!onCheckChange) return;
     
     const isCorrect = onCheckChange === answerData;
@@ -16,12 +18,19 @@ export default function AnswerDisplay({ titleData, answerData, questionId, onChe
       select: onCheckChange,
       correct: isCorrect
     };
-
     setResult([...result, newResult]);
     setIsAnswered(true);
 
     // 選択した結果をDBに保存
-    addSelect(questionId, isCorrect, onCheckChange);
+    const { error } = await supabase
+      .from('selectList')
+      .insert(
+        { question_id: questionId, is_correct: isCorrect, select_value: onCheckChange }
+      );
+    
+    if (error) {
+      throw new Error(error.message);
+    }
   };
 
   if (!isAnswered) {
