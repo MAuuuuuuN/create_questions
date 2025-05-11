@@ -39,7 +39,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
         <div className="flex flex-col h-full">
           <div className="p-6">
             <img 
-              src="/src/images/Qreate_logo.png" 
+              src="https://qreate-app.s3.ap-northeast-1.amazonaws.com/app-logo/Qreate_logo.png" 
               alt="Qreate Logo" 
               className="w-32 mx-auto mb-8"
             />
