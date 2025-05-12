@@ -15,7 +15,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
         aria-label="メニュー切り替え"
       >
         <svg
-          className="w-6 h-6 text-gray-700"
+          className="w-10 h-10 text-gray-700"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -33,24 +33,23 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
 
       {/* サイドバー */}
       <aside className={`fixed top-0 left-0 h-screen bg-white border-r border-gray-200 shadow-sm transition-all duration-300 ease-in-out z-40
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        w-70 max-w-xs ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
         lg:translate-x-0 lg:static lg:w-64`}
       >
         <div className="flex flex-col h-full">
-          <div className="p-6">
+          <div className="p-4 lg:p-6">
             <img 
               src="https://qreate-app.s3.ap-northeast-1.amazonaws.com/app-logo/Qreate_logo.png" 
               alt="Qreate Logo" 
-              className="w-32 mx-auto mb-8"
+              className="w-24 mb-4 mx-auto lg:w-32 lg:mb-8"
             />
           </div>
 
-          <nav className="flex-1 px-4">
+          <nav className="flex-1 px-2 lg:px-4">
             <div className="space-y-2">
               <button
                 onClick={showModal}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700
-                         rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+                className="w-full flex items-center gap-2 px-2 py-2 text-left text-gray-700 text-lg rounded-xl cursor-pointer hover:bg-gray-50 transition-colors duration-200 lg:gap-3 lg:px-4 lg:py-3 lg:text-lg"
               >
                 <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -61,8 +60,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
 
               <button
                 onClick={() => setShowReview(true)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700
-                         rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+                className="w-full flex items-center gap-2 px-2 py-2 text-left text-gray-700 text-lg rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200 lg:gap-3 lg:px-4 lg:py-3 lg:text-lg"
               >
                 <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -73,8 +71,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
 
               <button
                 onClick={() => setShowHistory(true)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left text-gray-700
-                         rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200"
+                className="w-full flex items-center gap-2 px-2 py-2 text-left text-gray-700 text-lg rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200 lg:gap-3 lg:px-4 lg:py-3 lg:text-lg"
               >
                 <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -85,8 +82,8 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
             </div>
           </nav>
 
-          <div className="p-4 border-t border-gray-200">
-            <div className="flex items-center gap-3 px-4 py-3 text-sm text-gray-500">
+          <div className="p-2 border-t border-gray-200 lg:p-4">
+            <div className="flex items-center gap-2 px-2 py-2 text-xs text-gray-500 lg:gap-3 lg:px-4 lg:py-3 lg:text-sm">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -100,7 +97,7 @@ export default function Sidebar({ showModal, showIncorrect, isOpen, onToggle }) 
       {/* オーバーレイ（モバイル用） */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          className="fixed inset-0 bg-opacity-50 z-30 lg:hidden"
           onClick={onToggle}
           aria-hidden="true"
         />

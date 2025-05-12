@@ -72,8 +72,6 @@ function App() {
       
       const createQuiz = JSON.parse(formatResult);
 
-      console.log("クイズ生成JSON", createQuiz);
-
       const newQuestions = createQuiz.map((splitQuiz) => ({
         category: value.category,
         questionId: uuidv4(),
@@ -154,12 +152,14 @@ function App() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar 
-        showModal={showModal} 
-        showIncorrect={showIncorrect} 
-        isOpen={isSidebarOpen}
-        onToggle={toggleSidebar}
-      />
+      {geminiState !== "finish" && 
+        <Sidebar 
+          showModal={showModal} 
+          showIncorrect={showIncorrect} 
+          isOpen={isSidebarOpen}
+          onToggle={toggleSidebar}
+        />
+      }
       <div className="flex-1 flex justify-center items-center p-4 lg:p-8  bg-neutral-100">
         {isShowModal && <Modal showModal={showModal} />}
         {isShowIncorrect && <IncorrectModal showModal={showIncorrect} />}

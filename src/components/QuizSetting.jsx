@@ -20,6 +20,7 @@ export default function QuizSetting({ onButtonClick }) {
     level: false,
   });
   const [category, setCategory] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -45,11 +46,11 @@ export default function QuizSetting({ onButtonClick }) {
   }, []);
 
   const setting_prompt = () => {
-    if (!questionSet.current?.value) return;
+    if (!inputValue) return;
 
     const prompt = {
-      category: questionSet.current.value,
-      sentence: `${questionSet.current.value}に関する知識を問う問題を出題してください。` +
+      category: inputValue,
+      sentence: `${inputValue}に関する知識を問う問題を出題してください。` +
         `問題は${advancedSettings.number_of_quiz}個出題してください。` +
         `難易度は${advancedSettings.level}向けにしてください。` +
         'questionに問題文、selectに選択肢、answerに正解の選択肢を入れてください。' +
@@ -73,6 +74,7 @@ export default function QuizSetting({ onButtonClick }) {
     const selectedCategory = categoryRefs.current[index]?.textContent;
     if (selectedCategory) {
       document.getElementById("create").value = selectedCategory;
+      setInputValue(selectedCategory);
     }
   };
 
@@ -103,23 +105,22 @@ export default function QuizSetting({ onButtonClick }) {
 
   // 入力値が有効かどうかを確認する関数を追加
   const isValidInput = () => {
-    const value = questionSet.current?.value || '';
-    return value.trim().length > 0;
+    return inputValue.trim().length > 0;
   };
 
   return (
-    <div className="max-w-2xl mx-auto w-2xl p-6">
-      <h2 className="text-center text-3xl text-gray-800 font-bold mb-8">
+    <div className="w-full max-w-2xl mx-auto px-2 py-4 sm:p-6">
+      <h2 className="text-center text-2xl sm:text-3xl text-gray-800 font-bold mb-6 sm:mb-8">
         今日は何を学習しますか？
       </h2>
       
-      <div className="flex flex-wrap justify-center gap-3 mb-6">
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
         {category.map((cat, index) => (
           <button
             key={cat}
-            className="px-5 py-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm 
+            className="px-3 py-2 sm:px-5 sm:py-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm 
                      text-gray-700 cursor-pointer hover:bg-gray-50 hover:border-gray-300 
-                     transition-all duration-200 ease-in-out"
+                     transition-all duration-200 ease-in-out text-sm sm:text-base"
             onClick={() => handleCategorySelect(index)}
             ref={(el) => (categoryRefs.current[index] = el)}
           >
@@ -128,24 +129,26 @@ export default function QuizSetting({ onButtonClick }) {
         ))}
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg p-6">
+      <div className="bg-white shadow-lg rounded-lg p-3 sm:p-6">
         <input
           type="text"
           id="create"
-          className="w-full p-4 text-lg bg-gray-50 border-2 border-gray-200 rounded-lg
+          className="w-full p-3 sm:p-4 text-base sm:text-lg bg-gray-50 border-2 border-gray-200 rounded-lg
                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
                    transition-all duration-200"
           onKeyDown={handleKeyDown}
           onCompositionStart={handleCompositionStart}
           onCompositionEnd={handleCompositionEnd}
           ref={questionSet}
-          placeholder="Let's do it!"
+          placeholder="問題を生成"
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
         />
 
-        <div className="flex justify-between items-center mt-6">
-          <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mt-4 sm:mt-6 gap-3 sm:gap-0">
+          <div className="flex gap-2 sm:gap-3 mb-2 sm:mb-0">
             <button
-              className={`px-4 py-2 rounded-full border-2 transition-all duration-200 cursor-pointer
+              className={`px-3 py-2 sm:px-4 sm:py-2 rounded-full border-2 transition-all duration-200 cursor-pointer
                       ${openSettings.number_of_quiz 
                         ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
@@ -154,7 +157,7 @@ export default function QuizSetting({ onButtonClick }) {
               問題数: {advancedSettings.number_of_quiz}問
             </button>
             <button
-              className={`px-4 py-2 rounded-full border-2 transition-all duration-200 cursor-pointer
+              className={`px-3 py-2 sm:px-4 sm:py-2 rounded-full border-2 transition-all duration-200 cursor-pointer
                       ${openSettings.level
                         ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}
@@ -165,7 +168,7 @@ export default function QuizSetting({ onButtonClick }) {
           </div>
 
           <button
-            className={`px-6 py-2 rounded-full font-medium transition-all duration-200
+            className={`px-4 py-2 sm:px-6 sm:py-2 rounded-full font-medium transition-all duration-200
                     ${isValidInput()
                       ? 'bg-indigo-600 text-white hover:bg-indigo-700'
                       : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
@@ -177,27 +180,27 @@ export default function QuizSetting({ onButtonClick }) {
         </div>
 
         {openSettings.number_of_quiz && (
-          <div className="mt-6 p-4 border-t border-gray-100">
-            <div className="flex items-center gap-3">
-              <label className="text-gray-700">問題数設定:</label>
+          <div className="mt-4 sm:mt-6 sm:p-4 sm:pb-0 pt-4 border-t border-gray-100">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <label className="text-gray-700 text-sm sm:text-base">問題数設定:</label>
               <input
                 type="number"
                 min="1"
-                className="w-24 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none 
+                className="w-16 sm:w-24 px-2 sm:px-3 py-2 border border-gray-200 rounded-lg focus:outline-none 
                          focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 onChange={handleNumberChange}
                 value={advancedSettings.number_of_quiz}
               />
-              <span className="text-gray-700">問</span>
+              <span className="text-gray-700 text-sm sm:text-base">問</span>
             </div>
           </div>
         )}
 
         {openSettings.level && (
-          <div className="mt-6 p-4 border-t border-gray-100">
-            <div className="flex items-center gap-4">
-              <label className="text-gray-700">難易度設定:</label>
-              <div className="flex gap-3">
+          <div className="mt-4 sm:mt-6 sm:p-4 sm:pb-0 pt-4 border-t border-gray-100">
+            <div className="flex h-10 items-center gap-2 sm:gap-4">
+              <label className="text-gray-700 text-sm sm:text-base">難易度設定:</label>
+              <div className="flex gap-2 sm:gap-3">
                 {LEVELS.map((level) => (
                   <label key={level} className="cursor-pointer">
                     <input
@@ -208,7 +211,7 @@ export default function QuizSetting({ onButtonClick }) {
                       checked={advancedSettings.level === level}
                       onChange={handleLevelChange}
                     />
-                    <span className={`px-4 py-2 rounded-full border-2 transition-all duration-200
+                    <span className={`px-2 py-2 sm:px-4 sm:py-2 rounded-full border-2 transition-all duration-200 text-sm sm:text-base
                                 ${advancedSettings.level === level
                                   ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                                   : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
