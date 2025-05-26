@@ -29,6 +29,7 @@ function App() {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowIncorrect, setIsShowIncorrect] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [reviewQuestions, setReviewQuestions] = useState(null);
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
 
@@ -116,13 +117,31 @@ function App() {
     setResult([]);
   }, [setResult]);
 
+  const handleStartReview = useCallback((questions) => {
+    // historyテーブルのデータをQuiz用データに変換
+    const formatted = questions.map(q => ({
+      ...q,
+      questionId: q.question_id || q.questionId || q.id || Math.random().toString(36).slice(2),
+      selects: q.select || '["A","B","C","D"]', // 仮の選択肢（本来はDBに保存されている場合はそれを使う）
+      answer: q.answer || "",
+      question: q.question,
+      category: q.category || "",
+    }));
+    setReviewQuestions(formatted);
+    setGeminiState("finish");
+    setIsShowIncorrect(false); // モーダルを閉じる
+    setResult([]); // 結果もリセット
+    setNowShow(0);
+  }, [setResult]);
+
   const renderQuizContent = () => {
     if (geminiState === GEMINI_STATES.START) {
       return <Loading />;
     }
 
     if (geminiState === GEMINI_STATES.FINISH) {
-      return <SetQuestions quizList={quizList} nowShow={nowShow} resetQuiz={resetQuiz} />
+      // reviewQuestionsがあればそれを優先
+      return <SetQuestions quizList={reviewQuestions || quizList} nowShow={nowShow} resetQuiz={resetQuiz} />
     }
 
     return <QuizSetting onButtonClick={handleButtonClick} />;
@@ -136,11 +155,12 @@ function App() {
           showIncorrect={showIncorrect} 
           isOpen={isSidebarOpen}
           onToggle={toggleSidebar}
+          onStartReview={handleStartReview} // 追加
         />
       }
       <div className="flex-1 flex justify-center items-center p-4 lg:p-8 bg-neutral-100">
         {isShowModal && <Modal showModal={showModal} />}
-        {isShowIncorrect && <IncorrectModal showModal={showIncorrect} />}
+        {isShowIncorrect && <IncorrectModal showModal={showIncorrect} onStartReview={handleStartReview} />}
         {renderQuizContent()}
       </div>
     </div>

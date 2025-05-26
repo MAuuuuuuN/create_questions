@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_KEY, import.meta.env.VITE_ANON_KEY);
 
-export default function IncorrectModal({ isOpen, onClose }) {
+export default function IncorrectModal({ isOpen, onClose, onStartReview }) {
   const [numberSettings, setNumberSettings] = useState(3);
   const [selectedCategory, setSelectedCategory] = useState("全て");
   const [categories, setCategories] = useState(["全て"]);
@@ -12,7 +12,7 @@ export default function IncorrectModal({ isOpen, onClose }) {
   const startReview = async () => {
     try {
       const { data, error } = await supabase
-        .from('history')
+        .from('review_quiz')
         .select('*')
         .limit(numberSettings);
 
@@ -20,7 +20,10 @@ export default function IncorrectModal({ isOpen, onClose }) {
         throw new Error(error);
       }
         
-      setHistory(data);
+      // ここで親にデータを渡す
+      // if (onStartReview) {
+        onStartReview(data);
+      // }
     } catch (error) {
       console.error('問題の取得に失敗しました:', error);
     }
