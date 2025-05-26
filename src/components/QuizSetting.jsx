@@ -109,7 +109,7 @@ export default function QuizSetting({ onButtonClick }) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-2 py-4 sm:p-6">
+    <div className="w-full max-w-2xl mx-auto px-2 py-4 h-110 sm:p-6">
       <h2 className="text-center text-2xl sm:text-3xl text-gray-800 font-bold mb-6 sm:mb-8">
         今日は何を学習しますか？
       </h2>
@@ -180,7 +180,7 @@ export default function QuizSetting({ onButtonClick }) {
         </div>
 
         {openSettings.number_of_quiz && (
-          <div className="mt-4 sm:mt-6 sm:p-4 sm:pb-0 pt-4 border-t border-gray-100">
+          <div className="mt-4 sm:mt-6 sm:p-4 sm:pb-0 pt-4 border-t-2 border-gray-300">
             <div className="flex items-center gap-2 sm:gap-3">
               <label className="text-gray-700 text-sm sm:text-base">問題数設定:</label>
               <input
@@ -197,7 +197,7 @@ export default function QuizSetting({ onButtonClick }) {
         )}
 
         {openSettings.level && (
-          <div className="mt-4 sm:mt-6 sm:p-4 sm:pb-0 pt-4 border-t border-gray-100">
+          <div className="mt-4 sm:mt-6 sm:p-4 sm:pb-0 pt-4 border-t-2 border-gray-300">
             <div className="flex h-10 items-center gap-2 sm:gap-4">
               <label className="text-gray-700 text-sm sm:text-base">難易度設定:</label>
               <div className="flex gap-2 sm:gap-3">

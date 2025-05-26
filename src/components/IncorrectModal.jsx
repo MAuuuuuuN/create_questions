@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "./Modal";
 import { createClient } from "@supabase/supabase-js";
 
@@ -8,6 +8,24 @@ export default function IncorrectModal({ isOpen, onClose }) {
   const [numberSettings, setNumberSettings] = useState(3);
   const [selectedCategory, setSelectedCategory] = useState("全て");
   const [categories, setCategories] = useState(["全て"]);
+
+  const startReview = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('history')
+        .select('*')
+        .limit(numberSettings);
+
+      if (error !== null) {
+        throw new Error(error);
+      }
+        
+      setHistory(data);
+    } catch (error) {
+      console.error('問題の取得に失敗しました:', error);
+    }
+  };
+  
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="復習">
@@ -60,7 +78,7 @@ export default function IncorrectModal({ isOpen, onClose }) {
 
           <div className="flex justify-end gap-4 mt-8">
             <button
-              // onClick={showModal}
+              onClick={() => startReview()}
               className="px-6 py-2 bg-indigo-600 text-white rounded-lg cursor-pointer
                      hover:bg-indigo-700 transition-colors"
             >

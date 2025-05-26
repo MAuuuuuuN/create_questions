@@ -6,6 +6,7 @@ import QuizResult from "./components/QuizResult.jsx";
 import Loading from "./components/Loading.jsx";
 import IncorrectModal from "./components/IncorrectModal.jsx";
 import Sidebar from "./components/Sidebar.jsx";
+import SetQuestions from "./components/SetQuestions.jsx";
 import { quizContext, resultContext } from "./components/QuizContext.jsx";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { v4 as uuidv4 } from 'uuid';
@@ -28,7 +29,6 @@ function App() {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowIncorrect, setIsShowIncorrect] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const { quizList, setQuizList } = useContext(quizContext);
   const { result, setResult } = useContext(resultContext);
 
@@ -122,29 +122,7 @@ function App() {
     }
 
     if (geminiState === GEMINI_STATES.FINISH) {
-      return (
-        <>
-          {quizList.map((question, index) => (
-            <div
-              key={question.questionId}
-              className={nowShow === index ? "block" : "hidden"}
-            >
-              <Quiz quizIndex={index} questionData={question} />
-            </div>
-          ))}
-          <div className={nowShow === quizList.length ? "block" : "hidden"}>
-            <QuizResult />
-            <div className="text-center">
-              <button
-                className="mb-20 p-3 w-80 bg-amber-100 border-3 border-amber-400 rounded-xl text-lg cursor-pointer transition duration-300 ease-in-out hover:bg-amber-400"
-                onClick={resetQuiz}
-              >
-                最初から
-              </button>
-            </div>
-          </div>
-        </>
-      );
+      return <SetQuestions quizList={quizList} nowShow={nowShow} resetQuiz={resetQuiz} />
     }
 
     return <QuizSetting onButtonClick={handleButtonClick} />;
@@ -160,7 +138,7 @@ function App() {
           onToggle={toggleSidebar}
         />
       }
-      <div className="flex-1 flex justify-center items-center p-4 lg:p-8  bg-neutral-100">
+      <div className="flex-1 flex justify-center items-center p-4 lg:p-8 bg-neutral-100">
         {isShowModal && <Modal showModal={showModal} />}
         {isShowIncorrect && <IncorrectModal showModal={showIncorrect} />}
         {renderQuizContent()}
